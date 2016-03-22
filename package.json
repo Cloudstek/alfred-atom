@@ -1,0 +1,19 @@
+{
+  "name": "alfred-atom",
+  "version": "1.0.0",
+  "description": "Simple workflow that allows you to browse and open Atom projects",
+  "dependencies": {
+    "season": "^5.3.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/mdeboer/alfred-atom.git"
+  },
+  "author": "Maarten de Boer <maarten@cloudstek.nl>",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/mdeboer/alfred-atom/issues"
+  },
+  "homepage": "https://github.com/mdeboer/alfred-atom#readme"
+}

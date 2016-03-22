@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>com.alfredapp.mdeboer.atom</string>
+	<key>category</key>
+	<string>Productivity</string>
+	<key>connections</key>
+	<dict>
+		<key>8AF6156F-3E0C-46B9-8D05-5A5589D09EF5</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>8CD25A48-2431-45EE-899F-68D3A2033B02</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Maarten de Boer</string>
+	<key>description</key>
+	<string>Simple workflow that allows you to browse and open Atom projects</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Atom</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>100</integer>
+				<key>keyword</key>
+				<string>atom</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>2</integer>
+				<key>runningsubtext</key>
+				<string>Loading projects...</string>
+				<key>script</key>
+				<string>require_once('workflows.php');
+$wf = new Workflows();
+
+$query = "{query}";
+$projects_file = $_SERVER['HOME']. "/.atom/projects.cson";
+
+if(file_exists($projects_file)) {
+
+	// Convert CSON projects file to JSON using season and parse it
+	$json = `bash -lc "node_modules/season/bin/csonc &lt; $projects_file"`;
+	$json = json_decode($json);
+
+	foreach($json as $k =&gt; $project) {
+
+		// Filter results but not if query is empty
+		if(strlen($query) &gt; 0 &amp;&amp; !stristr($project-&gt;title, $query)) {
+			continue;
+		}
+
+		// Escape all paths with double quotes for bash
+		$path_cmd = "\"".implode($project-&gt;paths, "\" \"")."\"";
+
+		// Pretty print all paths separated by a comma
+		$path_pretty = implode($project-&gt;paths, ", ");
+
+		// Add result
+		$wf-&gt;result(uniqid($k, false), $path_cmd, $project-&gt;title, $path_pretty, 'fileicon:/Applications/Atom.app');
+	}
+}
+
+// Display message if no results found
+if(count($wf-&gt;results()) == 0) {
+	$wf-&gt;result(uniqid('atom', true), '', "No projects found matching '{query}'", '', 'fileicon:/Applications/Atom.app');
+}
+
+// Display results
+echo $wf-&gt;toxml();
+</string>
+				<key>subtext</key>
+				<string>Load Atom project</string>
+				<key>title</key>
+				<string>Atom</string>
+				<key>type</key>
+				<integer>1</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>8AF6156F-3E0C-46B9-8D05-5A5589D09EF5</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>96</integer>
+				<key>script</key>
+				<string>/usr/local/bin/Atom {query}</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>8CD25A48-2431-45EE-899F-68D3A2033B02</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string>Simple workflow that allows you to browse and open Atom projects.
+
+Requirements:
+- NodeJS (node)
+- Atom Project Manager package (https://atom.io/packages/project-manager)
+
+Usage:
+Simply type atom and press space to list all projects. Optionally type a search string to filter results.</string>
+	<key>uidata</key>
+	<dict>
+		<key>8AF6156F-3E0C-46B9-8D05-5A5589D09EF5</key>
+		<dict>
+			<key>ypos</key>
+			<real>120</real>
+		</dict>
+		<key>8CD25A48-2431-45EE-899F-68D3A2033B02</key>
+		<dict>
+			<key>ypos</key>
+			<real>120</real>
+		</dict>
+	</dict>
+	<key>webaddress</key>
+	<string></string>
+</dict>
+</plist>
