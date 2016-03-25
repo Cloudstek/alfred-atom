@@ -33,6 +33,25 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>96</integer>
+				<key>script</key>
+				<string>/usr/local/bin/Atom {query}</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>8CD25A48-2431-45EE-899F-68D3A2033B02</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>argumenttype</key>
 				<integer>1</integer>
 				<key>escaping</key>
@@ -60,23 +79,28 @@ if(file_exists($projects_file)) {
 
 	// Convert CSON projects file to JSON using season and parse it
 	$json = `bash -lc "node_modules/season/bin/csonc &lt; $projects_file"`;
-	$json = json_decode($json);
+	$json = json_decode($json, true);
+
+	// Sort results by title
+	usort($json, function($a, $b) {
+		return strcmp($a['title'], $b['title']);
+	});
 
 	foreach($json as $k =&gt; $project) {
 
 		// Filter results but not if query is empty
-		if(strlen($query) &gt; 0 &amp;&amp; !stristr($project-&gt;title, $query)) {
+		if(strlen($query) &gt; 0 &amp;&amp; !stristr($project['title'], $query)) {
 			continue;
 		}
 
 		// Escape all paths with double quotes for bash
-		$path_cmd = "\"".implode($project-&gt;paths, "\" \"")."\"";
+		$path_cmd = "\"".implode($project['paths'], "\" \"")."\"";
 
 		// Pretty print all paths separated by a comma
-		$path_pretty = implode($project-&gt;paths, ", ");
+		$path_pretty = implode($project['paths'], ", ");
 
 		// Add result
-		$wf-&gt;result(uniqid($k, false), $path_cmd, $project-&gt;title, $path_pretty, 'fileicon:/Applications/Atom.app');
+		$wf-&gt;result(uniqid($k, false), $path_cmd, $project['title'], $path_pretty, 'fileicon:/Applications/Atom.app');
 	}
 }
 
@@ -101,25 +125,6 @@ echo $wf-&gt;toxml();
 			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
 			<string>8AF6156F-3E0C-46B9-8D05-5A5589D09EF5</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>concurrently</key>
-				<false/>
-				<key>escaping</key>
-				<integer>96</integer>
-				<key>script</key>
-				<string>/usr/local/bin/Atom {query}</string>
-				<key>type</key>
-				<integer>0</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.script</string>
-			<key>uid</key>
-			<string>8CD25A48-2431-45EE-899F-68D3A2033B02</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
