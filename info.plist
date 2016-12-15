@@ -17,6 +17,8 @@
 				<integer>0</integer>
 				<key>modifiersubtext</key>
 				<string></string>
+				<key>vitoclose</key>
+				<false/>
 			</dict>
 		</array>
 	</dict>
@@ -39,6 +41,10 @@
 				<integer>96</integer>
 				<key>script</key>
 				<string>/usr/local/bin/Atom {query}</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -47,11 +53,13 @@
 			<key>uid</key>
 			<string>8CD25A48-2431-45EE-899F-68D3A2033B02</string>
 			<key>version</key>
-			<integer>0</integer>
+			<integer>2</integer>
 		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
 				<key>argumenttype</key>
 				<integer>1</integer>
 				<key>escaping</key>
@@ -69,55 +77,17 @@
 				<key>runningsubtext</key>
 				<string>Loading projects...</string>
 				<key>script</key>
-				<string>require_once('workflows.php');
-$wf = new Workflows();
-
-$query = "{query}";
-$projects_file = $_SERVER['HOME']. "/.atom/projects.cson";
-
-if(file_exists($projects_file)) {
-
-	// Convert CSON projects file to JSON using season and parse it
-	$json = `bash -lc "node_modules/season/bin/csonc &lt; $projects_file"`;
-	$json = json_decode($json, true);
-
-	// Sort results by title
-	usort($json, function($a, $b) {
-		return strcmp($a['title'], $b['title']);
-	});
-
-	foreach($json as $k =&gt; $project) {
-
-		// Filter results but not if query is empty
-		if(strlen($query) &gt; 0 &amp;&amp; !stristr($project['title'], $query)) {
-			continue;
-		}
-
-		// Escape all paths with double quotes for bash
-		$path_cmd = "\"".implode($project['paths'], "\" \"")."\"";
-
-		// Pretty print all paths separated by a comma
-		$path_pretty = implode($project['paths'], ", ");
-
-		// Add result
-		$wf-&gt;result(uniqid($k, false), $path_cmd, $project['title'], $path_pretty, 'fileicon:/Applications/Atom.app');
-	}
-}
-
-// Display message if no results found
-if(count($wf-&gt;results()) == 0) {
-	$wf-&gt;result(uniqid('atom', true), '', "No projects found matching '{query}'", '', 'fileicon:/Applications/Atom.app');
-}
-
-// Display results
-echo $wf-&gt;toxml();
-</string>
+				<string>/usr/local/bin/node main.js projects "{query}"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
 				<key>subtext</key>
 				<string>Load Atom project</string>
 				<key>title</key>
 				<string>Atom</string>
 				<key>type</key>
-				<integer>1</integer>
+				<integer>0</integer>
 				<key>withspace</key>
 				<true/>
 			</dict>
@@ -126,7 +96,7 @@ echo $wf-&gt;toxml();
 			<key>uid</key>
 			<string>8AF6156F-3E0C-46B9-8D05-5A5589D09EF5</string>
 			<key>version</key>
-			<integer>0</integer>
+			<integer>2</integer>
 		</dict>
 	</array>
 	<key>readme</key>
@@ -142,11 +112,15 @@ Simply type atom and press space to list all projects. Optionally type a search 
 	<dict>
 		<key>8AF6156F-3E0C-46B9-8D05-5A5589D09EF5</key>
 		<dict>
+			<key>xpos</key>
+			<integer>300</integer>
 			<key>ypos</key>
 			<real>120</real>
 		</dict>
 		<key>8CD25A48-2431-45EE-899F-68D3A2033B02</key>
 		<dict>
+			<key>xpos</key>
+			<integer>500</integer>
 			<key>ypos</key>
 			<real>120</real>
 		</dict>
