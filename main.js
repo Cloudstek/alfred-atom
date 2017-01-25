@@ -1,36 +1,40 @@
 #!/usr/bin/env node
 
 var AlfredNode = require('alfred-workflow-nodejs'),
-  workflow = AlfredNode.workflow,
-  CSON = require('season'),
-  AtomUtil = require('./src/atom-util');
+    workflow = AlfredNode.workflow,
+    cson = require('season'),
+    AtomUtil = require('./src/atom-util');
 
 AlfredNode.actionHandler.onAction('projects', function(query) {
-  var file = process.env.HOME + '/.atom/projects.cson';
+    var file = process.env.HOME + '/.atom/projects.cson';
 
-  CSON.readFile(file, function(err, object) {
-    var projects = [];
+    // Read projects file.
+    cson.readFile(file, function(err, object) {
+        var projects = [];
 
-    if (err) {
-      projects.push({
-        title: 'No projects file found',
-        subtitle: file
-      });
-    }
-    else {
-      projects = AtomUtil.parseProjects(object, query);
-      if (projects.length < 1) {
-        projects.push({
-          title: 'No projects found'
+        if (err) {
+            projects.push({
+                title: 'No projects file found',
+                subtitle: file
+            });
+        }
+        else {
+            // Parse projects.
+            projects = AtomUtil.parseProjects(object, query);
+            if (projects.length < 1) {
+                projects.push({
+                    title: 'No projects found'
+                });
+            }
+        }
+
+        // Add found projects to list.
+        projects.map(function(project) {
+            workflow.addItem(new AlfredNode.Item(project));
         });
-      }
-    }
 
-    projects.map(function(project) {
-      workflow.addItem(new AlfredNode.Item(project));
+        workflow.feedback();
     });
-    workflow.feedback();
-  });
 });
 
 AlfredNode.run();
