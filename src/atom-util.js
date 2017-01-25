@@ -79,7 +79,7 @@ function getIcon(project)
  */
 function getArgument(project)
 {
-    var arg = project.paths.join(' ');
+    var arg = '"' + project.paths.join('" "') + '"';
     if (project.devMode) {
         arg += ' -d';
     }
