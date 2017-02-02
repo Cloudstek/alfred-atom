@@ -73,15 +73,13 @@ function getIcon(project)
 /**
  * Get atom arguments
  * @param {object} project Project object
+ * @param {array} args Extra commandline arguments
+ * @param {string} app Command to open project paths with
  * @return {string}
  */
 function getArgument(project)
 {
-    var arg = '"' + project.paths.join('" "') + '"';
-    if (project.devMode) {
-        arg += ' -d';
-    }
-    return arg;
+    return '"' + project.paths.join('" "') + '"';
 }
 
 /**
