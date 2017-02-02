@@ -27,7 +27,13 @@ function fileExists(file)
  */
 function getTitle(project)
 {
-    return project.title;
+    var title = project.title;
+
+    if (project.group) {
+        title += ' - ' + project.group;
+    }
+
+    return title;
 }
 
 /**
@@ -37,15 +43,7 @@ function getTitle(project)
  */
 function getSubtitle(project)
 {
-    var subtitle = "";
-
-    if (project.group) {
-        subtitle = '[' + project.group + '] ';
-    }
-
-    subtitle += project.paths.join(', ')
-
-    return subtitle;
+    return project.paths.join(', ')
 }
 
 /**
