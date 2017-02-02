@@ -20,6 +20,11 @@ function fileExists(file)
     }
 }
 
+function getUid(project)
+{
+    return project.title.toLowerCase().replace(' ', '_');
+}
+
 /**
  * Project title
  * @param {object} project Project object
@@ -53,20 +58,21 @@ function getSubtitle(project)
  */
 function getIcon(project)
 {
-    var iconPaths = project.paths.map(function(iconPath) {
-        return path.join(iconPath, 'icon.png');
+    let iconPaths = project.paths.map((projectPath) => {
+        return path.join(projectPath, 'icon.png');
     });
 
     if (project.icon) {
-        var icon = project.icon.replace('icon-', '') + '-128.png';
+        let icon = project.icon.replace('icon-', '') + '-128.png';
         iconPaths.unshift(path.join('octicons', icon));
     }
 
-    for (var i = 0; i < iconPaths.length; i++) {
-        if(fileExists(iconPaths[i])) {
-            return iconPaths[i];
+    for (let iconPath in iconPaths) {
+        if(fileExists(iconPaths[iconPath])) {
+            return iconPaths[iconPath];
         }
     }
+
     return 'icon.png';
 }
 
@@ -92,12 +98,13 @@ function getArgument(project)
  */
 AtomUtil.filterProjects = function(projects, query, keys)
 {
+    // TODO: Use fuzzaldrin directly once it has support for multpiple keys. PR has been made.
     if (query) {
-        var scoredCandidates = {};
+        let scoredCandidates = {};
 
-        for (projectIndex in projects) {
+        for (let projectIndex in projects) {
             let project = projects[projectIndex];
-            for (keyIndex in keys) {
+            for (let keyIndex in keys) {
                 let key = keys[keyIndex];
                 let score = fuzzaldrin.score(project[key], query);
 
@@ -143,26 +150,35 @@ AtomUtil.parseProjects = function(object, query)
         }
     });
 
+    // Sort projects
+    projects = projects.sort(function(a, b) {
+        return a.title.localeCompare(b.title);
+    });
+
+    // Perform search.
     if (query) {
-        // Perform search.
         projects = this.filterProjects(projects, query, ['title', 'group']);
-    }
-    else {
-        // Return all projects.
-        projects = projects.sort(function(a, b) {
-            return a.title.localeCompare(b.title);
-        });
     }
 
     // Return list.
     return projects.map(function(project) {
-        return {
+        var item = {
             title: getTitle(project),
             subtitle: getSubtitle(project),
             icon: getIcon(project),
             arg: getArgument(project),
-            valid: true
+            valid: true,
+            text: {
+                copy: getArgument(project)
+            }
         };
+
+        // If atom filters results, set UID.
+        if(!query) {
+            item.uid = getUid(project);
+        }
+
+        return item;
     });
 };
 
