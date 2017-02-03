@@ -26,15 +26,23 @@ describe('Atom Util', function() {
                 title: 'Project #1',
                 subtitle: 'dir/path1',
                 icon: 'icon.png',
-                arg: 'dir/path1',
-                valid: true
+                arg: '\"dir/path1\"',
+                valid: true,
+                uid: 'project_#1',
+                text: {
+                    copy: '\"dir/path1\"'
+                }
             });
             expect(projects[1]).to.deep.equal({
                 title: 'Project #2',
                 subtitle: 'dir/path2',
                 icon: 'icon.png',
-                arg: 'dir/path2',
-                valid: true
+                arg: '\"dir/path2\"',
+                valid: true,
+                uid: 'project_#2',
+                text: {
+                    copy: '\"dir/path2\"'
+                }
             });
         });
 
@@ -56,20 +64,14 @@ describe('Atom Util', function() {
             expect(projects).to.have.lengthOf(2);
             expect(projects[0]).to.deep.include({
                 subtitle: 'dir/path3, dir/path4',
-                arg: 'dir/path3 dir/path4'
+                arg: '\"dir/path3\" \"dir/path4\"'
             });
-        });
-
-        it('sets development flag', function() {
-            object.project1.devMode = true;
-            var projects = AtomUtil.parseProjects(object);
-            expect(projects[0].arg).to.equal('dir/path1 -d');
         });
 
         it('append group', function() {
             object.project1.group = 'group1';
             var projects = AtomUtil.parseProjects(object);
-            expect(projects[0].subtitle).to.equal('[group1] dir/path1');
+            expect(projects[0].title).to.equal('Project #1 - group1');
         });
 
         it('checks paths for an icon', function() {
@@ -105,7 +107,7 @@ describe('Atom Util', function() {
             object.project1.group = 'test group';
             var projects = AtomUtil.parseProjects(object, 'test group');
             expect(projects).to.have.lengthOf(1);
-            expect(projects[0].title).to.equal('Project #1');
+            expect(projects[0].title).to.equal('Project #1 - test group');
         });
 
         it('handles empty filter query', function() {
