@@ -20,6 +20,56 @@
 				<key>vitoclose</key>
 				<false/>
 			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>FE88D8C3-EE6E-493C-8265-B5837C2894A5</string>
+				<key>modifiers</key>
+				<integer>1048576</integer>
+				<key>modifiersubtext</key>
+				<string>Open in new window</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>C3803FAD-D59A-416E-829A-0171318A4360</string>
+				<key>modifiers</key>
+				<integer>8388608</integer>
+				<key>modifiersubtext</key>
+				<string>Append project path(s) to last open window</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>35732D96-5B61-4C6E-90F0-763364B11A6A</string>
+				<key>modifiers</key>
+				<integer>262144</integer>
+				<key>modifiersubtext</key>
+				<string>Open in development mode</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>C714B84E-CE96-400A-BEF0-37799139CA39</string>
+				<key>modifiers</key>
+				<integer>131072</integer>
+				<key>modifiersubtext</key>
+				<string>Open project path(s) in finder</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>B1127ADC-5698-4325-9C7E-D9C7F46C478F</string>
+				<key>modifiers</key>
+				<integer>524288</integer>
+				<key>modifiersubtext</key>
+				<string>Open project path(s) in terminal</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
 		</array>
 	</dict>
 	<key>createdby</key>
@@ -36,11 +86,11 @@
 			<key>config</key>
 			<dict>
 				<key>concurrently</key>
-				<false/>
+				<true/>
 				<key>escaping</key>
-				<integer>96</integer>
+				<integer>98</integer>
 				<key>script</key>
-				<string>/usr/local/bin/Atom {query}</string>
+				<string>${atomPath:-/usr/local/bin/atom} {query}</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -58,12 +108,35 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>concurrently</key>
+				<true/>
+				<key>escaping</key>
+				<integer>98</integer>
+				<key>script</key>
+				<string>${atomPath:-/usr/local/bin/atom} -n {query}</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>FE88D8C3-EE6E-493C-8265-B5837C2894A5</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>alfredfiltersresults</key>
-				<false/>
+				<true/>
 				<key>argumenttype</key>
 				<integer>1</integer>
 				<key>escaping</key>
-				<integer>100</integer>
+				<integer>96</integer>
 				<key>keyword</key>
 				<string>atom</string>
 				<key>queuedelaycustom</key>
@@ -71,13 +144,13 @@
 				<key>queuedelayimmediatelyinitially</key>
 				<true/>
 				<key>queuedelaymode</key>
-				<integer>0</integer>
+				<integer>1</integer>
 				<key>queuemode</key>
 				<integer>2</integer>
 				<key>runningsubtext</key>
 				<string>Loading projects...</string>
 				<key>script</key>
-				<string>/usr/local/bin/node main.js projects "{query}"</string>
+				<string>$nodePath main.js projects</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -98,6 +171,98 @@
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<true/>
+				<key>escaping</key>
+				<integer>98</integer>
+				<key>script</key>
+				<string>${atomPath:-/usr/local/bin/atom} -a {query}</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>C3803FAD-D59A-416E-829A-0171318A4360</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<true/>
+				<key>escaping</key>
+				<integer>98</integer>
+				<key>script</key>
+				<string>${atomPath:-/usr/local/bin/atom} -d {query}</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>35732D96-5B61-4C6E-90F0-763364B11A6A</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>98</integer>
+				<key>script</key>
+				<string>open -a Finder {query}</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>C714B84E-CE96-400A-BEF0-37799139CA39</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>98</integer>
+				<key>script</key>
+				<string>open -a ${terminalApp:-Terminal} {query}</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>B1127ADC-5698-4325-9C7E-D9C7F46C478F</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string>Simple workflow that allows you to browse and open Atom projects.
@@ -110,23 +275,86 @@ Usage:
 Simply type atom and press space to list all projects. Optionally type a search string to filter results.</string>
 	<key>uidata</key>
 	<dict>
+		<key>35732D96-5B61-4C6E-90F0-763364B11A6A</key>
+		<dict>
+			<key>note</key>
+			<string>Open in dev mode</string>
+			<key>xpos</key>
+			<integer>740</integer>
+			<key>ypos</key>
+			<integer>450</integer>
+		</dict>
 		<key>8AF6156F-3E0C-46B9-8D05-5A5589D09EF5</key>
 		<dict>
+			<key>note</key>
+			<string>Filter projects</string>
 			<key>xpos</key>
-			<integer>300</integer>
+			<integer>160</integer>
 			<key>ypos</key>
-			<real>120</real>
+			<integer>220</integer>
 		</dict>
 		<key>8CD25A48-2431-45EE-899F-68D3A2033B02</key>
 		<dict>
+			<key>note</key>
+			<string>Run atom</string>
 			<key>xpos</key>
-			<integer>500</integer>
+			<integer>740</integer>
 			<key>ypos</key>
-			<real>120</real>
+			<integer>30</integer>
+		</dict>
+		<key>B1127ADC-5698-4325-9C7E-D9C7F46C478F</key>
+		<dict>
+			<key>note</key>
+			<string>Open in terminal</string>
+			<key>xpos</key>
+			<integer>470</integer>
+			<key>ypos</key>
+			<integer>640</integer>
+		</dict>
+		<key>C3803FAD-D59A-416E-829A-0171318A4360</key>
+		<dict>
+			<key>note</key>
+			<string>Append to last window</string>
+			<key>xpos</key>
+			<integer>740</integer>
+			<key>ypos</key>
+			<integer>310</integer>
+		</dict>
+		<key>C714B84E-CE96-400A-BEF0-37799139CA39</key>
+		<dict>
+			<key>note</key>
+			<string>Reveal in finder</string>
+			<key>xpos</key>
+			<integer>470</integer>
+			<key>ypos</key>
+			<integer>500</integer>
+		</dict>
+		<key>FE88D8C3-EE6E-493C-8265-B5837C2894A5</key>
+		<dict>
+			<key>note</key>
+			<string>Open in new window</string>
+			<key>xpos</key>
+			<integer>740</integer>
+			<key>ypos</key>
+			<integer>170</integer>
 		</dict>
 	</dict>
+	<key>variables</key>
+	<dict>
+		<key>atomPath</key>
+		<string></string>
+		<key>nodePath</key>
+		<string>/usr/local/bin/node</string>
+		<key>terminalApp</key>
+		<string>iTerm</string>
+	</dict>
+	<key>variablesdontexport</key>
+	<array>
+		<string>terminalApp</string>
+		<string>atomPath</string>
+	</array>
 	<key>version</key>
-	<string>2.1.0</string>
+	<string>2.2.0</string>
 	<key>webaddress</key>
 	<string>https://github.com/Cloudstek/alfred-atom</string>
 </dict>
