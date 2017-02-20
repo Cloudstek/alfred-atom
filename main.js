@@ -1,40 +1,21 @@
-#!/usr/bin/env node
+'use strict';
+const alfy = require('alfy');
+const cson = require('season');
+const AtomUtil = require('./lib/atom-util');
 
-var AlfredNode = require('alfred-workflow-nodejs'),
-    workflow = AlfredNode.workflow,
-    cson = require('season'),
-    AtomUtil = require('./src/atom-util');
+const projects = cson.readFileSync(process.env.HOME + '/.atom/projects.cson');
 
-AlfredNode.actionHandler.onAction('projects', function(query) {
-    var file = process.env.HOME + '/.atom/projects.cson';
+// Parse projects.
+AtomUtil
+    .parseProjects(projects, alfy.input)
+    .then(projects => {
+        if (projects.length < 1) {
+            alfy.output([{
+                title: 'No projects found.'
+            }]);
 
-    // Read projects file.
-    cson.readFile(file, function(err, object) {
-        var projects = [];
-
-        if (err) {
-            projects.push({
-                title: 'No projects file found',
-                subtitle: file
-            });
-        }
-        else {
-            // Parse projects.
-            projects = AtomUtil.parseProjects(object, query);
-            if (projects.length < 1) {
-                projects.push({
-                    title: 'No projects found'
-                });
-            }
+            return;
         }
 
-        // Add found projects to list.
-        projects.map(function(project) {
-            workflow.addItem(new AlfredNode.Item(project));
-        });
-
-        workflow.feedback();
+        alfy.output(projects);
     });
-});
-
-AlfredNode.run();

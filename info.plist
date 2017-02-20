@@ -136,7 +136,7 @@
 				<key>argumenttype</key>
 				<integer>1</integer>
 				<key>escaping</key>
-				<integer>96</integer>
+				<integer>102</integer>
 				<key>keyword</key>
 				<string>atom</string>
 				<key>queuedelaycustom</key>
@@ -150,9 +150,9 @@
 				<key>runningsubtext</key>
 				<string>Loading projects...</string>
 				<key>script</key>
-				<string>$nodePath main.js projects</string>
+				<string>$nodePath main.js "$1"</string>
 				<key>scriptargtype</key>
-				<integer>0</integer>
+				<integer>1</integer>
 				<key>scriptfile</key>
 				<string></string>
 				<key>subtext</key>
@@ -344,7 +344,7 @@ Simply type atom and press space to list all projects. Optionally type a search 
 		<key>atomPath</key>
 		<string></string>
 		<key>nodePath</key>
-		<string>/usr/local/bin/node</string>
+		<string>./node_modules/.bin/run-node</string>
 		<key>terminalApp</key>
 		<string>iTerm</string>
 	</dict>
@@ -354,7 +354,7 @@ Simply type atom and press space to list all projects. Optionally type a search 
 		<string>atomPath</string>
 	</array>
 	<key>version</key>
-	<string>2.2.0</string>
+	<string>2.3.0</string>
 	<key>webaddress</key>
 	<string>https://github.com/Cloudstek/alfred-atom</string>
 </dict>

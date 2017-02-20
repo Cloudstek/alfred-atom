@@ -1,20 +1,47 @@
 {
   "name": "alfred-atom",
-  "version": "2.1.0",
+  "version": "2.3.0",
   "description": "Simple workflow that allows you to browse and open Atom projects",
   "dependencies": {
-    "alfred-workflow-nodejs": "^2.0.1",
+    "alfy": "^0.6.0",
     "fuzzaldrin": "^2.1.0",
     "season": "^5.4.1"
   },
   "devDependencies": {
+    "babel-cli": "^6.23.0",
+    "babel-eslint": "^7.1.1",
+    "babel-preset-es2017": "^6.22.0",
     "chai": "^3.5.0",
     "istanbul": "^0.4.5",
-    "mocha": "^3.1.2"
+    "mocha": "^3.1.2",
+    "xo": "^0.17.1"
   },
   "scripts": {
-    "test": "mocha",
-    "coverage": "istanbul cover ./node_modules/.bin/_mocha"
+    "build": "babel src --out-dir lib",
+    "watch": "babel -w src --out-dir lib",
+    "test": "xo && mocha",
+    "coverage": "istanbul cover ./node_modules/.bin/_mocha",
+    "postinstall": "alfy-init",
+    "preuninstall": "alfy-cleanup"
+  },
+  "babel": {
+    "comments": false,
+    "compact": true,
+    "minified": true,
+    "presets": [
+      "es2017"
+    ]
+  },
+  "xo": {
+    "space": 4,
+    "overrides": [
+      {
+        "files": "test/*.js",
+        "rules": {
+          "no-undef": "off"
+        }
+      }
+    ]
   },
   "repository": {
     "type": "git",

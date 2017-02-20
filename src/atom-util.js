@@ -1,6 +1,7 @@
-var fs = require('fs'),
-    path = require('path'),
-    fuzzaldrin = require('fuzzaldrin');
+'use strict';
+const fs = require('fs');
+const path = require('path');
+const fuzzaldrin = require('fuzzaldrin');
 
 var AtomUtil = {};
 
@@ -9,19 +10,16 @@ var AtomUtil = {};
  * @param {string} file File path
  * @return {boolean}
  */
-function fileExists(file)
-{
+function fileExists(file) {
     try {
         fs.statSync(file);
         return true;
-    }
-    catch (e) {
+    } catch (err) {
         return false;
     }
 }
 
-function getUid(project)
-{
+function getUid(project) {
     return project.title.toLowerCase().replace(' ', '_');
 }
 
@@ -30,8 +28,7 @@ function getUid(project)
  * @param {object} project Project object
  * @return {string}
  */
-function getTitle(project)
-{
+function getTitle(project) {
     var title = project.title;
 
     if (project.group) {
@@ -46,9 +43,8 @@ function getTitle(project)
  * @param {object} project Project object
  * @return {string}
  */
-function getSubtitle(project)
-{
-    return project.paths.join(', ')
+function getSubtitle(project) {
+    return project.paths.join(', ');
 }
 
 /**
@@ -56,19 +52,26 @@ function getSubtitle(project)
  * @param {object} project Project object
  * @return {string} Icon file
  */
-function getIcon(project)
-{
-    let iconPaths = project.paths.map((projectPath) => {
-        return path.join(projectPath, 'icon.png');
-    });
+function getIcon(project) {
+    let iconPaths = [];
 
     if (project.icon) {
+        if (fileExists(project.icon)) {
+            return project.icon;
+        }
+
         let icon = project.icon.replace('icon-', '') + '-128.png';
         iconPaths.unshift(path.join('octicons', icon));
     }
 
+    // Search every project root dir for icon.png
+    project.paths.map(projectPath => {
+        iconPaths.push(path.join(projectPath, 'icon.png'));
+        return projectPath;
+    });
+
     for (let iconPath in iconPaths) {
-        if(fileExists(iconPaths[iconPath])) {
+        if (fileExists(iconPaths[iconPath])) {
             return iconPaths[iconPath];
         }
     }
@@ -83,103 +86,132 @@ function getIcon(project)
  * @param {string} app Command to open project paths with
  * @return {string}
  */
-function getArgument(project)
-{
+function getArgument(project) {
     return '"' + project.paths.join('" "') + '"';
+}
+
+/**
+ * Parse project
+ * @param {object} project Atom project
+ * @return {Promise}
+ */
+async function parseProject(project) {
+    var score = null;
+    var filtered = 'score' in project;
+
+    // Item is filtered project and we have to work some magic.
+    if (filtered) {
+        score = project.score;
+        project = project.project;
+    }
+
+    var item = {
+        title: getTitle(project),
+        subtitle: getSubtitle(project),
+        icon: getIcon(project),
+        arg: getArgument(project),
+        valid: true,
+        text: {
+            copy: getArgument(project)
+        }
+    };
+
+    // Add sorting criteria (uid or match score)
+    if (filtered) {
+        item.score = score;
+    } else {
+        item.uid = getUid(project);
+    }
+
+    return item;
 }
 
 /**
  * Filter projects
  *
- * @param {array} projects Projects list
- * @param {string} query Search query
- * @param {array} keys Project object keys to search
- * @return {array} Filtered and sorted projects
+ * @param {Array} projects Projects list
+ * @param {String} query Search query
+ * @param {Array} keys Project object keys to search
+ * @return {Array} Filtered and sorted projects
  */
-AtomUtil.filterProjects = function(projects, query, keys)
-{
-    // TODO: Use fuzzaldrin directly once it has support for multpiple keys. PR has been made.
-    if (query) {
-        let scoredCandidates = {};
-
-        for (let projectIndex in projects) {
-            let project = projects[projectIndex];
-            for (let keyIndex in keys) {
-                let key = keys[keyIndex];
-                let score = fuzzaldrin.score(project[key], query);
-
-                if (score > 0) {
-                    if (!scoredCandidates[project.title]) {
-                        scoredCandidates[project.title] = {project, score};
-                        continue;
-                    }
-                    scoredCandidates[project.title].score += score
-                }
-            }
-        }
-
-        // Sort by score
-        scoredCandidates = Object.entries(scoredCandidates).sort((a, b) => {
-            return b[1].score - a[1].score;
-        });
-
-        // Only return projects
-        projects = scoredCandidates.map((a) => {
-            return a[1].project;
-        });
+async function filterProjects(projects, query, keys) {
+    if (!query) {
+        return [];
     }
 
-    return projects;
+    const projectPromises = projects
+        .map(async project => {
+            let candidate = {project: project, score: 0};
+
+            const candidatePromises = keys.map(async key => {
+                return fuzzaldrin.score(project[key], query);
+            });
+
+            let scores = await Promise.all(candidatePromises);
+
+            scores.map(score => {
+                candidate.score += score;
+                return score;
+            });
+
+            return candidate;
+        });
+
+    let filteredProjects = await Promise.all(projectPromises);
+
+    return filteredProjects.filter(project => project.score > 0);
 }
 
 /**
  * Parse projects
  * @param {object} object Projects list
  * @param {string} query Search query
- * @return {object}
+ * @return {Promise}
  */
-AtomUtil.parseProjects = function(object, query)
-{
+AtomUtil.parseProjects = async (object, query) => {
     var projects = [];
+    var promises = [];
 
     // Check and add project to list.
-    Object.keys(object || {}).map(function(key) {
-        var project = object[key];
+    Object.keys(object || {}).map(key => {
+        let project = object[key];
         if (project && project.paths && project.title) {
             projects.push(project);
         }
-    });
-
-    // Sort projects
-    projects = projects.sort(function(a, b) {
-        return a.title.localeCompare(b.title);
+        return key;
     });
 
     // Perform search.
     if (query) {
-        projects = this.filterProjects(projects, query, ['title', 'group']);
+        projects = await filterProjects(projects, query, ['title', 'group']);
     }
 
-    // Return list.
-    return projects.map(function(project) {
-        var item = {
-            title: getTitle(project),
-            subtitle: getSubtitle(project),
-            icon: getIcon(project),
-            arg: getArgument(project),
-            valid: true,
-            text: {
-                copy: getArgument(project)
-            }
-        };
-
-        // If atom filters results, set UID.
-        if(!query) {
-            item.uid = getUid(project);
-        }
-
-        return item;
+    // Parse projects async
+    projects.map(project => {
+        promises.push(parseProject(project));
+        return project;
     });
+
+    // Await all promises
+    return Promise.all(promises)
+        .then(projects => {
+            projects = projects || [];
+
+            if (query) {
+                // Sort by score
+                projects = projects.sort((a, b) => {
+                    return b.score - a.score;
+                });
+            } else {
+                // Sort by title
+                projects = projects.sort((a, b) => {
+                    return a.title.localeCompare(b.title);
+                });
+            }
+
+            // Return projects
+            return projects;
+        });
 };
 
 module.exports = AtomUtil;
