@@ -56,12 +56,22 @@ function getIcon(project) {
     let iconPaths = [];
 
     if (project.icon) {
+        if (project.icon.startsWith('~')) {
+            project.icon = path.join(process.env.HOME, project.icon.slice(1));
+        }
+
+        // Absolute path
         if (fileExists(project.icon)) {
             return project.icon;
         }
 
-        let icon = project.icon.replace('icon-', '') + '-128.png';
-        iconPaths.unshift(path.join('octicons', icon));
+        // Search for project icon if its path is relative
+        if (project.icon.match(/^(\.{1,2}|~|)\//i) === null) {
+            project.paths.map(projectPath => {
+                iconPaths.push(path.join(projectPath, project.icon));
+                return projectPath;
+            });
+        }
     }
 
     // Search every project root dir for icon.png
@@ -108,7 +118,9 @@ async function parseProject(project) {
     var item = {
         title: getTitle(project),
         subtitle: getSubtitle(project),
-        icon: getIcon(project),
+        icon: {
+            path: getIcon(project)
+        },
         arg: getArgument(project),
         valid: true,
         text: {
