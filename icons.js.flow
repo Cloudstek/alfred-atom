@@ -1,0 +1,103 @@
+// @flow
+
+const color = require('color');
+const CSON = require('cson-parser');
+const fs = require('fs');
+const Hugo = require('alfred-hugo');
+const path = require('path');
+const svgexport = require('svgexport');
+
+const octicons = require('octicons');
+const octiconsPath = path.join(path.dirname(require.resolve('octicons')), 'build', 'svg');
+
+class Icons {
+    /**
+     * SVG icon path color
+     * @return {string}
+     */
+    _pathColor(): string {
+        let iconColor = color('#FFFFFF');
+
+        // Decide color based on text or background color
+        if (Hugo.alfredThemeFile) {
+            try {
+                iconColor = color(Hugo.alfredTheme.result.text.color);
+            } catch (e) {}
+        } else if (process.env.alfred_theme_background) {
+            let bgColor = color(process.env.alfred_theme_background);
+            iconColor = bgColor.grayscale().negate();
+        }
+
+        return iconColor.rgb().string();
+    }
+
+    /**
+     * Rebuild icon(s)
+     * @param {string|Array.string} icons Icon name(s) to rebuild
+     * @return {Promise}
+     * @async
+     */
+    async rebuild(icons: ?Array<string>) {
+        // Icons
+        icons = icons || [];
+
+        // Read projects file
+        if (icons.length === 0) {
+            const homedir = process.env.HOME || '';
+            const projectsFile = fs.readFileSync(path.join(homedir, '.atom', 'projects.cson'));
+
+            let projects = CSON.parse(projectsFile) || [];
+            let octiconNames = Object.keys(octicons);
+
+            for (let i = 0; i < projects.length; i++) {
+                let icon = projects[i].icon;
+                if (icon && icon.startsWith('icon-') && octiconNames.indexOf(icon.slice(5)) >= 0) {
+                    icons.push(icon.slice(5));
+                }
+            }
+        }
+
+        console.error(icons);
+
+        // Icon size
+        let iconSize = 64;
+
+        if (Hugo.alfredThemeFile) {
+            try {
+                iconSize = Hugo.alfredTheme.result.iconSize;
+            } catch (e) {}
+        }
+
+        // Output path
+        let iconPath = path.join(__dirname, 'icons');
+
+        // Render queue
+        let renderQueue = [];
+
+        // Render options
+        let options = [iconSize + ':' + iconSize, 'pad', 'path{fill:' + this._pathColor() + '}'];
+
+        // Build render queue
+        for (let i = 0; i < icons.length; i++) {
+            let icon = icons[i];
+
+            if (icon && icon.length > 0) {
+                renderQueue.push({
+                    input: path.join(octiconsPath, icon + '.svg'),
+                    output: [
+                        [path.join(iconPath, icon + '.png'), ...options]
+                    ]
+                });
+            }
+        }
+
+        // Render
+        svgexport.render(renderQueue, err => {
+            if (err) {
+                throw err;
+            }
+        });
+    }
+}
+
+module.exports = new Icons();

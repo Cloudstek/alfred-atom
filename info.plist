@@ -8,11 +8,11 @@
 	<string>Productivity</string>
 	<key>connections</key>
 	<dict>
-		<key>8AF6156F-3E0C-46B9-8D05-5A5589D09EF5</key>
+		<key>0F5710F0-0FB4-42B9-9DCD-960FBED55A43</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>8CD25A48-2431-45EE-899F-68D3A2033B02</string>
+				<string>E54949AF-E280-448B-A7D5-E66996494FB0</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -22,51 +22,96 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
-				<string>FE88D8C3-EE6E-493C-8265-B5837C2894A5</string>
+				<string>80840762-F092-4C77-B135-FA4AEBE86A93</string>
 				<key>modifiers</key>
-				<integer>1048576</integer>
+				<integer>0</integer>
 				<key>modifiersubtext</key>
-				<string>Open in new window</string>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>14E5559D-490B-4316-8AB3-F36197AD4437</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A28E26AB-2CA3-4F6D-8A86-A5909476B368</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>68C1FEE7-FF2D-4DDA-8DD8-81DC2A9070DA</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>8AF6156F-3E0C-46B9-8D05-5A5589D09EF5</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>8AF6156F-3E0C-46B9-8D05-5A5589D09EF5</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>14E5559D-490B-4316-8AB3-F36197AD4437</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
 				<key>vitoclose</key>
 				<false/>
 			</dict>
 			<dict>
 				<key>destinationuid</key>
-				<string>C3803FAD-D59A-416E-829A-0171318A4360</string>
+				<string>D6E4B519-8F01-4A94-B5EB-E8DC8CFE0CD7</string>
 				<key>modifiers</key>
-				<integer>8388608</integer>
+				<integer>0</integer>
 				<key>modifiersubtext</key>
-				<string>Append project path(s) to last open window</string>
+				<string></string>
 				<key>vitoclose</key>
 				<false/>
 			</dict>
 			<dict>
 				<key>destinationuid</key>
-				<string>35732D96-5B61-4C6E-90F0-763364B11A6A</string>
+				<string>0F5710F0-0FB4-42B9-9DCD-960FBED55A43</string>
 				<key>modifiers</key>
-				<integer>262144</integer>
+				<integer>0</integer>
 				<key>modifiersubtext</key>
-				<string>Open in development mode</string>
+				<string></string>
 				<key>vitoclose</key>
 				<false/>
 			</dict>
+		</array>
+		<key>D6E4B519-8F01-4A94-B5EB-E8DC8CFE0CD7</key>
+		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>C714B84E-CE96-400A-BEF0-37799139CA39</string>
+				<string>38D13A34-4B8D-4D25-9DDE-8BC333F74A1F</string>
 				<key>modifiers</key>
-				<integer>131072</integer>
+				<integer>0</integer>
 				<key>modifiersubtext</key>
-				<string>Open project path(s) in finder</string>
+				<string></string>
 				<key>vitoclose</key>
 				<false/>
 			</dict>
+		</array>
+		<key>E54949AF-E280-448B-A7D5-E66996494FB0</key>
+		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>B1127ADC-5698-4325-9C7E-D9C7F46C478F</string>
+				<string>BA14A5F5-603C-43C4-B653-47FF65BF250F</string>
 				<key>modifiers</key>
-				<integer>524288</integer>
+				<integer>0</integer>
 				<key>modifiersubtext</key>
-				<string>Open project path(s) in terminal</string>
+				<string></string>
 				<key>vitoclose</key>
 				<false/>
 			</dict>
@@ -88,9 +133,9 @@
 				<key>concurrently</key>
 				<true/>
 				<key>escaping</key>
-				<integer>98</integer>
+				<integer>34</integer>
 				<key>script</key>
-				<string>${atomPath:-/usr/local/bin/atom} {query}</string>
+				<string>{query}</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -101,30 +146,7 @@
 			<key>type</key>
 			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
-			<string>8CD25A48-2431-45EE-899F-68D3A2033B02</string>
-			<key>version</key>
-			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>concurrently</key>
-				<true/>
-				<key>escaping</key>
-				<integer>98</integer>
-				<key>script</key>
-				<string>${atomPath:-/usr/local/bin/atom} -n {query}</string>
-				<key>scriptargtype</key>
-				<integer>0</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>type</key>
-				<integer>0</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.script</string>
-			<key>uid</key>
-			<string>FE88D8C3-EE6E-493C-8265-B5837C2894A5</string>
+			<string>A28E26AB-2CA3-4F6D-8A86-A5909476B368</string>
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
@@ -132,7 +154,7 @@
 			<key>config</key>
 			<dict>
 				<key>alfredfiltersresults</key>
-				<true/>
+				<false/>
 				<key>argumenttype</key>
 				<integer>1</integer>
 				<key>escaping</key>
@@ -146,19 +168,81 @@
 				<key>queuedelaymode</key>
 				<integer>1</integer>
 				<key>queuemode</key>
-				<integer>2</integer>
+				<integer>1</integer>
 				<key>runningsubtext</key>
-				<string>Loading projects...</string>
+				<string>Loading projects....</string>
 				<key>script</key>
-				<string>$nodePath main.js "$1"</string>
+				<string>${nodePath:-/usr/local/bin/node} main.js rebuild-icons</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
 				<string></string>
 				<key>subtext</key>
-				<string>Load Atom project</string>
+				<string>List all your Atom projects</string>
 				<key>title</key>
 				<string>Atom</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>68C1FEE7-FF2D-4DDA-8DD8-81DC2A9070DA</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>inputstring</key>
+				<string>{var:task}</string>
+				<key>matchcasesensitive</key>
+				<true/>
+				<key>matchmode</key>
+				<integer>1</integer>
+				<key>matchstring</key>
+				<string>wfUpdate</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.filter</string>
+			<key>uid</key>
+			<string>14E5559D-490B-4316-8AB3-F36197AD4437</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>atom</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Loading projects...</string>
+				<key>script</key>
+				<string>${nodePath:-/usr/local/bin/node} main.js projects "$1"</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string></string>
 				<key>type</key>
 				<integer>0</integer>
 				<key>withspace</key>
@@ -174,48 +258,40 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>concurrently</key>
-				<true/>
-				<key>escaping</key>
-				<integer>98</integer>
-				<key>script</key>
-				<string>${atomPath:-/usr/local/bin/atom} -a {query}</string>
-				<key>scriptargtype</key>
-				<integer>0</integer>
-				<key>scriptfile</key>
+				<key>browser</key>
 				<string></string>
-				<key>type</key>
-				<integer>0</integer>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>{query}</string>
+				<key>utf8</key>
+				<true/>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.action.script</string>
+			<string>alfred.workflow.action.openurl</string>
 			<key>uid</key>
-			<string>C3803FAD-D59A-416E-829A-0171318A4360</string>
+			<string>38D13A34-4B8D-4D25-9DDE-8BC333F74A1F</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>concurrently</key>
+				<key>inputstring</key>
+				<string>{var:task}</string>
+				<key>matchcasesensitive</key>
 				<true/>
-				<key>escaping</key>
-				<integer>98</integer>
-				<key>script</key>
-				<string>${atomPath:-/usr/local/bin/atom} -d {query}</string>
-				<key>scriptargtype</key>
+				<key>matchmode</key>
 				<integer>0</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>type</key>
-				<integer>0</integer>
+				<key>matchstring</key>
+				<string>wfUpdate</string>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.action.script</string>
+			<string>alfred.workflow.utility.filter</string>
 			<key>uid</key>
-			<string>35732D96-5B61-4C6E-90F0-763364B11A6A</string>
+			<string>D6E4B519-8F01-4A94-B5EB-E8DC8CFE0CD7</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -223,11 +299,11 @@
 				<key>concurrently</key>
 				<false/>
 				<key>escaping</key>
-				<integer>98</integer>
+				<integer>102</integer>
 				<key>script</key>
-				<string>open -a Finder {query}</string>
+				<string>${nodePath:-/usr/local/bin/node} main.js rebuild-icons</string>
 				<key>scriptargtype</key>
-				<integer>0</integer>
+				<integer>1</integer>
 				<key>scriptfile</key>
 				<string></string>
 				<key>type</key>
@@ -236,32 +312,70 @@
 			<key>type</key>
 			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
-			<string>C714B84E-CE96-400A-BEF0-37799139CA39</string>
+			<string>E54949AF-E280-448B-A7D5-E66996494FB0</string>
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>concurrently</key>
+				<key>lastpathcomponent</key>
 				<false/>
-				<key>escaping</key>
-				<integer>98</integer>
-				<key>script</key>
-				<string>open -a ${terminalApp:-Terminal} {query}</string>
-				<key>scriptargtype</key>
-				<integer>0</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>type</key>
-				<integer>0</integer>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>Project icons have been rebuilt!</string>
+				<key>title</key>
+				<string>Atom</string>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.action.script</string>
+			<string>alfred.workflow.output.notification</string>
 			<key>uid</key>
-			<string>B1127ADC-5698-4325-9C7E-D9C7F46C478F</string>
+			<string>BA14A5F5-603C-43C4-B653-47FF65BF250F</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>inputstring</key>
+				<string>{var:task}</string>
+				<key>matchcasesensitive</key>
+				<true/>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>matchstring</key>
+				<string>rebuild-icons</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.filter</string>
+			<key>uid</key>
+			<string>0F5710F0-0FB4-42B9-9DCD-960FBED55A43</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>Rebuilding project icons!</string>
+				<key>title</key>
+				<string>Atom</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>80840762-F092-4C77-B135-FA4AEBE86A93</string>
+			<key>version</key>
+			<integer>1</integer>
 		</dict>
 	</array>
 	<key>readme</key>
@@ -275,14 +389,46 @@ Usage:
 Simply type atom and press space to list all projects. Optionally type a search string to filter results.</string>
 	<key>uidata</key>
 	<dict>
-		<key>35732D96-5B61-4C6E-90F0-763364B11A6A</key>
+		<key>0F5710F0-0FB4-42B9-9DCD-960FBED55A43</key>
+		<dict>
+			<key>xpos</key>
+			<integer>410</integer>
+			<key>ypos</key>
+			<integer>600</integer>
+		</dict>
+		<key>14E5559D-490B-4316-8AB3-F36197AD4437</key>
+		<dict>
+			<key>xpos</key>
+			<integer>410</integer>
+			<key>ypos</key>
+			<integer>220</integer>
+		</dict>
+		<key>38D13A34-4B8D-4D25-9DDE-8BC333F74A1F</key>
 		<dict>
 			<key>note</key>
-			<string>Open in dev mode</string>
+			<string>Update workflow</string>
 			<key>xpos</key>
-			<integer>740</integer>
+			<integer>540</integer>
 			<key>ypos</key>
-			<integer>450</integer>
+			<integer>300</integer>
+		</dict>
+		<key>68C1FEE7-FF2D-4DDA-8DD8-81DC2A9070DA</key>
+		<dict>
+			<key>note</key>
+			<string>Filter projects</string>
+			<key>xpos</key>
+			<integer>10</integer>
+			<key>ypos</key>
+			<integer>220</integer>
+		</dict>
+		<key>80840762-F092-4C77-B135-FA4AEBE86A93</key>
+		<dict>
+			<key>note</key>
+			<string>Rebuilding started</string>
+			<key>xpos</key>
+			<integer>550</integer>
+			<key>ypos</key>
+			<integer>640</integer>
 		</dict>
 		<key>8AF6156F-3E0C-46B9-8D05-5A5589D09EF5</key>
 		<dict>
@@ -293,50 +439,39 @@ Simply type atom and press space to list all projects. Optionally type a search 
 			<key>ypos</key>
 			<integer>220</integer>
 		</dict>
-		<key>8CD25A48-2431-45EE-899F-68D3A2033B02</key>
+		<key>A28E26AB-2CA3-4F6D-8A86-A5909476B368</key>
 		<dict>
 			<key>note</key>
 			<string>Run atom</string>
 			<key>xpos</key>
-			<integer>740</integer>
+			<integer>540</integer>
 			<key>ypos</key>
-			<integer>30</integer>
+			<integer>150</integer>
 		</dict>
-		<key>B1127ADC-5698-4325-9C7E-D9C7F46C478F</key>
+		<key>BA14A5F5-603C-43C4-B653-47FF65BF250F</key>
 		<dict>
 			<key>note</key>
-			<string>Open in terminal</string>
+			<string>Rebuilding done</string>
 			<key>xpos</key>
-			<integer>470</integer>
-			<key>ypos</key>
-			<integer>640</integer>
-		</dict>
-		<key>C3803FAD-D59A-416E-829A-0171318A4360</key>
-		<dict>
-			<key>note</key>
-			<string>Append to last window</string>
-			<key>xpos</key>
-			<integer>740</integer>
-			<key>ypos</key>
-			<integer>310</integer>
-		</dict>
-		<key>C714B84E-CE96-400A-BEF0-37799139CA39</key>
-		<dict>
-			<key>note</key>
-			<string>Reveal in finder</string>
-			<key>xpos</key>
-			<integer>470</integer>
+			<integer>710</integer>
 			<key>ypos</key>
 			<integer>500</integer>
 		</dict>
-		<key>FE88D8C3-EE6E-493C-8265-B5837C2894A5</key>
+		<key>D6E4B519-8F01-4A94-B5EB-E8DC8CFE0CD7</key>
+		<dict>
+			<key>xpos</key>
+			<integer>410</integer>
+			<key>ypos</key>
+			<integer>330</integer>
+		</dict>
+		<key>E54949AF-E280-448B-A7D5-E66996494FB0</key>
 		<dict>
 			<key>note</key>
-			<string>Open in new window</string>
+			<string>Rebuild icons</string>
 			<key>xpos</key>
-			<integer>740</integer>
+			<integer>550</integer>
 			<key>ypos</key>
-			<integer>170</integer>
+			<integer>500</integer>
 		</dict>
 	</dict>
 	<key>variables</key>
@@ -344,12 +479,13 @@ Simply type atom and press space to list all projects. Optionally type a search 
 		<key>atomPath</key>
 		<string></string>
 		<key>nodePath</key>
-		<string>./node_modules/.bin/run-node</string>
+		<string>/usr/local/bin/node</string>
 		<key>terminalApp</key>
 		<string>iTerm</string>
 	</dict>
 	<key>variablesdontexport</key>
 	<array>
+		<string>nodePath</string>
 		<string>terminalApp</string>
 		<string>atomPath</string>
 	</array>

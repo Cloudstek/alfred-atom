@@ -1,0 +1,20 @@
+{
+  "parser": "babel-eslint",
+  "extends": "xo",
+  "env": {
+    "node": true
+  },
+  "rules": {
+    "indent": [
+      "error",
+      4,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "flowtype-errors/show-errors": 2
+  },
+  "plugins": [
+    "flowtype-errors"
+  ]
+}

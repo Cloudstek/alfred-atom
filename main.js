@@ -1,21 +1,90 @@
 'use strict';
-const alfy = require('alfy');
-const cson = require('season');
-const AtomUtil = require('./lib/atom-util');
 
-const projects = cson.readFileSync(process.env.HOME + '/.atom/projects.cson');
+var Hugo = require('alfred-hugo');
+var CSON = require('cson-parser');
+var path = require('path');
 
-// Parse projects.
-AtomUtil
-    .parseProjects(projects, alfy.input)
-    .then(projects => {
-        if (projects.length < 1) {
-            alfy.output([{
-                title: 'No projects found.'
-            }]);
+var Project = require('./project');
+var Icons = require('./icons');
 
-            return;
-        }
+Hugo.action('projects', function (query) {
+    var homedir = process.env.HOME || '';
+    var projectsPath = path.resolve(homedir, '.atom', 'projects.cson');
 
-        alfy.output(projects);
+    var projectsFile = Hugo.cacheFile(projectsPath, 'projects');
+
+    projectsFile.on('change', function (cache, file) {
+        var projects = CSON.parse(file) || [];
+
+        projects = Project.parseAll(projects);
+
+        projects.sort(function (a, b) {
+            var nameA = a.title.toLowerCase();
+            var nameB = b.title.toLowerCase();
+
+            if (nameA < nameB) {
+                return -1;
+            }
+
+            if (nameA > nameB) {
+                return 1;
+            }
+
+            return 0;
+        });
+
+        cache.store(projects);
     });
+
+    var projects = projectsFile.get();
+
+    if (projects && Array.isArray(projects)) {
+        Hugo.addItems(projects);
+    }
+
+    Hugo.addItem({
+        title: 'Rebuild project icons',
+        arg: {
+            variables: {
+                task: 'rebuild-icons'
+            }
+        }
+    });
+
+    Hugo.filterItems(query);
+
+    if (Hugo.itemCount < 1) {
+        Hugo.addItem({
+            title: 'No projects found.'
+        });
+    }
+
+    Hugo.feedback();
+});
+
+Hugo.action('rebuild-icons', function () {
+    var themePath = Hugo.alfredMeta.themeFile;
+    var lastTheme = Hugo.cache.get('lastTheme');
+
+    if (!lastTheme) {
+        Hugo.cache.set('lastTheme', Hugo.alfredMeta.theme);
+        Icons.rebuild();
+        return;
+    }
+
+    if (lastTheme !== Hugo.alfredMeta.theme) {
+        Hugo.cache.set('lastTheme', Hugo.alfredMeta.theme);
+        Icons.rebuild();
+        return;
+    }
+
+    if (themePath) {
+        var themeFile = Hugo.cacheFile(themePath, 'theme');
+
+        themeFile.on('change', function () {
+            Icons.rebuild();
+        });
+
+        themeFile.get();
+    }
+});
