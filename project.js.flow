@@ -1,6 +1,7 @@
 // @flow
 
 const fs = require('fs');
+const octicons = require('octicons');
 const path = require('path');
 
 /**
@@ -70,9 +71,9 @@ class Project {
         if (project.icon) {
             // Octicon
             if (project.icon.startsWith('icon-')) {
-                let iconPath = path.join(__dirname, 'icons', project.icon.slice(5) + '.png');
-                if (this._fileExists(iconPath)) {
-                    return iconPath;
+                let octiconNames = Object.keys(octicons);
+                if (octiconNames.indexOf(project.icon.slice(5)) >= 0) {
+                    return path.join(__dirname, 'icons', project.icon.slice(5) + '.png');
                 }
             }
 
