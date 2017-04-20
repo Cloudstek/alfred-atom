@@ -5,7 +5,6 @@ Simple workflow that allows you to browse and open [Atom](https://atom.io/) proj
 * [Requirements](#requirements)
 * [Installation](#installation)
 * [Usage](#usage)
-* [Development](#development)
 
 ## Requirements
 
