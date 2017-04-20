@@ -12,7 +12,8 @@
         "SwitchCase": 1
       }
     ],
-    "flowtype-errors/show-errors": 2
+    "flowtype-errors/show-errors": 2,
+    "no-prototype-builtins": "off"
   },
   "plugins": [
     "flowtype-errors"

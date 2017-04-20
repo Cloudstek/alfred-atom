@@ -3,16 +3,50 @@
 const Hugo = require('alfred-hugo');
 const CSON = require('cson-parser');
 const path = require('path');
+const fs = require('fs');
 
 const Project = require('./project');
 const Icons = require('./icons');
 
+const checkIcons = async (projects: Array<Object>) => {
+    const themePath: string = Hugo.alfredMeta.themeFile;
+    const lastTheme: ?string = Hugo.cache.get('lastTheme');
+
+    try {
+        fs.statSync(path.join(__dirname, 'icons'));
+    } catch (e) {
+        Hugo.cache.set('lastTheme', Hugo.alfredMeta.theme);
+        Icons.rebuild(projects);
+        return;
+    }
+
+    if (!lastTheme || lastTheme !== Hugo.alfredMeta.theme) {
+        Hugo.cache.set('lastTheme', Hugo.alfredMeta.theme);
+        Icons.rebuild(projects);
+        return;
+    }
+
+    if (themePath) {
+        const themeFile = Hugo.cacheFile(themePath, 'theme');
+
+        themeFile.on('change', () => {
+            Icons.rebuild(projects);
+        });
+
+        themeFile.get();
+    }
+};
+
 Hugo.action('projects', query => {
+    if (!query || query.length === 0) {
+        Hugo.feedback();
+    }
+
+    // Home dir
     const homedir = process.env.HOME || '';
-    const projectsPath: string = path.resolve(homedir, '.atom', 'projects.cson');
 
     // Projects file
-    const projectsFile = Hugo.cacheFile(projectsPath, 'projects');
+    const projectsFile = Hugo.cacheFile(path.resolve(homedir, '.atom', 'projects.cson'), 'projects');
 
     // Parse projects
     projectsFile.on('change', (cache, file) => {
@@ -21,6 +55,9 @@ Hugo.action('projects', query => {
 
         // Parse projects
         projects = Project.parseAll(projects);
+
+        // Rebuild icons when needed
+        Icons.rebuild(projects, {onlyMissing: true});
 
         // Sort projects
         projects.sort((a, b) => {
@@ -46,20 +83,13 @@ Hugo.action('projects', query => {
 
     if (projects && Array.isArray(projects)) {
         Hugo.addItems(projects);
+
+        // Check icons
+        checkIcons(projects);
     }
 
-    // Add option to rebuild project icons
-    Hugo.addItem({
-        title: 'Rebuild project icons',
-        arg: {
-            variables: {
-                task: 'rebuild-icons'
-            }
-        }
-    });
-
     // Filter items by query
-    Hugo.filterItems(query);
+    Hugo.filterItems(query.trim());
 
     // Check if any projects found
     if (Hugo.itemCount < 1) {
@@ -70,34 +100,4 @@ Hugo.action('projects', query => {
 
     // Output
     Hugo.feedback();
-});
-
-/**
- * Rebuild action
- */
-Hugo.action('rebuild-icons', () => {
-    const themePath: string = Hugo.alfredMeta.themeFile;
-    const lastTheme: ?string = Hugo.cache.get('lastTheme');
-
-    if (!lastTheme) {
-        Hugo.cache.set('lastTheme', Hugo.alfredMeta.theme);
-        Icons.rebuild();
-        return;
-    }
-
-    if (lastTheme !== Hugo.alfredMeta.theme) {
-        Hugo.cache.set('lastTheme', Hugo.alfredMeta.theme);
-        Icons.rebuild();
-        return;
-    }
-
-    if (themePath) {
-        const themeFile = Hugo.cacheFile(themePath, 'theme');
-
-        themeFile.on('change', () => {
-            Icons.rebuild();
-        });
-
-        themeFile.get();
-    }
 });
