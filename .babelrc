@@ -1,0 +1,19 @@
+{
+  "comments": false,
+  "compact": true,
+  "plugins": [
+    "transform-class-properties",
+    "transform-runtime"
+  ],
+  "presets": [
+    "flow",
+    [
+      "env",
+      {
+        "targets": {
+          "node": 4
+        }
+      }
+    ]
+  ]
+}
