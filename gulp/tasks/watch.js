@@ -1,6 +1,7 @@
-var gulp = require('gulp');
+'use strict';
+const gulp = require('gulp');
 
-var task = function (done) {
+let task = done => {
     gulp.watch(['./**/*.js.flow', '!node_modules', '!node_modules/**'], ['babel']);
 };
 
