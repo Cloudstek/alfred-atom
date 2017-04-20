@@ -57,8 +57,6 @@ class Icons {
             }
         }
 
-        console.error(icons);
-
         // Icon size
         let iconSize = 64;
 

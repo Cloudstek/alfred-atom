@@ -2,9 +2,6 @@
 
 const fs = require('fs');
 const path = require('path');
-const octicons = require('octicons');
-
-const Icons = require('./icons');
 
 /**
  * Atom Project
