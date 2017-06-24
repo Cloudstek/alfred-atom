@@ -94,27 +94,10 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>inputstring</key>
-				<string>{var:task}</string>
-				<key>matchcasesensitive</key>
-				<true/>
-				<key>matchmode</key>
-				<integer>1</integer>
-				<key>matchstring</key>
-				<string>wfUpdate</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.utility.filter</string>
-			<key>uid</key>
-			<string>14E5559D-490B-4316-8AB3-F36197AD4437</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>alfredfiltersresults</key>
 				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
 				<key>argumenttype</key>
 				<integer>0</integer>
 				<key>escaping</key>
@@ -152,6 +135,25 @@
 			<string>8AF6156F-3E0C-46B9-8D05-5A5589D09EF5</string>
 			<key>version</key>
 			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>inputstring</key>
+				<string>{var:task}</string>
+				<key>matchcasesensitive</key>
+				<true/>
+				<key>matchmode</key>
+				<integer>1</integer>
+				<key>matchstring</key>
+				<string>wfUpdate</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.filter</string>
+			<key>uid</key>
+			<string>14E5559D-490B-4316-8AB3-F36197AD4437</string>
+			<key>version</key>
+			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -257,8 +259,6 @@ Simply type atom and press space to list all projects. Optionally type a search 
 	</dict>
 	<key>variables</key>
 	<dict>
-		<key>atomPath</key>
-		<string></string>
 		<key>nodePath</key>
 		<string>/usr/local/bin/node</string>
 		<key>terminalApp</key>
@@ -266,12 +266,11 @@ Simply type atom and press space to list all projects. Optionally type a search 
 	</dict>
 	<key>variablesdontexport</key>
 	<array>
-		<string>nodePath</string>
 		<string>terminalApp</string>
-		<string>atomPath</string>
+		<string>nodePath</string>
 	</array>
 	<key>version</key>
-	<string>2.3.0</string>
+	<string>2.3.1</string>
 	<key>webaddress</key>
 	<string>https://github.com/Cloudstek/alfred-atom</string>
 </dict>

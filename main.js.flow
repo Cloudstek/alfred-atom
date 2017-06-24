@@ -48,6 +48,12 @@ Hugo.action('projects', query => {
     // Projects file
     const projectsFile = Hugo.cacheFile(path.resolve(homedir, '.atom', 'projects.cson'), 'projects');
 
+    // Check for environment var changes (terminal app, nodejs path)
+    if (process.env.terminalApp && Hugo.config.get('terminalApp') !== process.env.terminalApp) {
+        Hugo.clearCacheSync();
+        Hugo.config.set('terminalApp', process.env.terminalApp);
+    }
+
     // Parse projects
     projectsFile.on('change', (cache, file) => {
         // Read projects file
