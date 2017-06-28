@@ -3,6 +3,7 @@
   "version": "2.3.1",
   "description": "Simple workflow that allows you to browse and open Atom projects",
   "dependencies": {
+    "alfred-hugo": "^1.1.1",
     "alfred-link": "^0.2.0",
     "babel-runtime": "^6.23.0",
     "color": "^1.0.3",
@@ -30,7 +31,7 @@
     "eslint": "^3.18.0",
     "eslint-config-xo": "^0.18.1",
     "eslint-formatter-pretty": "^1.1.0",
-    "eslint-plugin-flowtype-errors": "^3.0.1",
+    "eslint-plugin-flowtype-errors": "^3.3.1",
     "flow-bin": "^0.42.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",

@@ -8,7 +8,36 @@ const fs = require('fs');
 const Project = require('./project');
 const Icons = require('./icons');
 
-const checkIcons = async (projects: Array<Object>) => {
+/**
+ * Check for environment changes (workflow version, terminal app, nodejs path)
+ * @return {void}
+ */
+const checkEnv = (): void => {
+    let clearCache = false;
+
+    // Terminal app
+    if (process.env.terminalApp && Hugo.config.get('terminalApp') !== process.env.terminalApp) {
+        clearCache = true;
+        Hugo.config.set('terminalApp', process.env.terminalApp);
+    }
+
+    // Workflow version
+    if (Hugo.workflowMeta.version && Hugo.config.get('wfVersion') !== Hugo.workflowMeta.version) {
+        clearCache = true;
+        Hugo.config.set('wfVersion', Hugo.workflowMeta.version);
+    }
+
+    if (clearCache === true) {
+        Hugo.clearCacheSync();
+    }
+};
+
+/**
+ * Check if we need to rebuild icons
+ * @param {Array.Object} projects
+ * @return {Promise}
+ */
+const checkIcons = async (projects: Array<Object>): Promise<void> => {
     const themePath: string = Hugo.alfredMeta.themeFile;
     const lastTheme: ?string = Hugo.cache.get('lastTheme');
 
@@ -37,9 +66,27 @@ const checkIcons = async (projects: Array<Object>) => {
     }
 };
 
+/**
+ * Check workflow dependencies
+ * @return {boolean}
+ */
+const checkDependencies = (): boolean => {
+    try {
+        require.resolve('svgexport');
+    } catch (err) {
+        return false;
+    }
+
+    return true;
+};
+
+/**
+ * Projects action
+ */
 Hugo.action('projects', query => {
     if (!query || query.length === 0) {
         Hugo.feedback();
+        return;
     }
 
     // Home dir
@@ -48,11 +95,8 @@ Hugo.action('projects', query => {
     // Projects file
     const projectsFile = Hugo.cacheFile(path.resolve(homedir, '.atom', 'projects.cson'), 'projects');
 
-    // Check for environment var changes (terminal app, nodejs path)
-    if (process.env.terminalApp && Hugo.config.get('terminalApp') !== process.env.terminalApp) {
-        Hugo.clearCacheSync();
-        Hugo.config.set('terminalApp', process.env.terminalApp);
-    }
+    // Check environment for changes
+    checkEnv();
 
     // Parse projects
     projectsFile.on('change', (cache, file) => {
@@ -88,6 +132,31 @@ Hugo.action('projects', query => {
     let projects = projectsFile.get();
 
     if (projects && Array.isArray(projects)) {
+        // Check dependencies for icon building
+        if (!checkDependencies() && Icons.usedIcons(projects).length > 0) {
+            console.error(`Missing dependencies to render project icons. Please run: cd ${__dirname} && npm install`);
+
+            Hugo.addItem({
+                title: 'Missing dependencies',
+                subtitle: 'Missing dependencies to render project icons. Please press enter to install.',
+                arg: {
+                    arg: __dirname,
+                    variables: {
+                        task: 'wfDependencies'
+                    }
+                },
+                valid: true,
+                mods: {
+                    alt: {
+                        valid: true,
+                        subtitle: 'View documentation on this issue.',
+                        arg: 'https://github.com/Cloudstek/alfred-hugo/blob/master/README.md'
+                    }
+                }
+            });
+        }
+
+        // Add projects to Hugo
         Hugo.addItems(projects);
 
         // Check icons

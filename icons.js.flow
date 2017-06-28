@@ -4,10 +4,15 @@ const color = require('color');
 const fs = require('fs');
 const Hugo = require('alfred-hugo');
 const path = require('path');
-const svgexport = require('svgexport');
 
 const octicons = require('octicons');
 const octiconsPath = path.join(path.dirname(require.resolve('octicons')), 'build', 'svg');
+
+// Svgexport is optional
+var svgexport = null;
+try {
+    svgexport = require('svgexport') || null;
+} catch (err) {}
 
 class Icons {
     /**
@@ -31,6 +36,37 @@ class Icons {
     }
 
     /**
+     * Get list of used icons in projects
+     * @param {Array.Object} projects
+     * @return {Array.string}
+     */
+    usedIcons(projects: Array<Object>): Array<string> {
+        let icons = [];
+
+        // Octicon names
+        const octiconNames = Object.keys(octicons);
+
+        // Output path
+        const iconPath = path.join(__dirname, 'icons');
+
+        for (let project of projects) {
+            if (!project.hasOwnProperty('icon')) {
+                continue;
+            }
+
+            let icon = path.parse(project.icon.path);
+
+            if (icon.dir === iconPath && octiconNames.indexOf(icon.name) >= 0) {
+                if (icons.indexOf(icon.name) === -1) {
+                    icons.push(icon.name);
+                }
+            }
+        }
+
+        return icons;
+    }
+
+    /**
      * Rebuild icon(s)
      * @param {Array.Object} projects
      * @param {Object} options
@@ -38,14 +74,12 @@ class Icons {
      * @async
      */
     async rebuild(projects: Array<Object>, options: Object = {}) {
+        if (!svgexport) {
+            return false;
+        }
+
         // Output path
         const iconPath = path.join(__dirname, 'icons');
-
-        // Octicon names
-        const octiconNames = Object.keys(octicons);
-
-        // Icons to render
-        let icons = [];
 
         // Icon size
         let iconSize = 64;
@@ -54,19 +88,7 @@ class Icons {
         let renderQueue = [];
 
         // Get used icons from projects list
-        for (let i = 0; i < projects.length; i++) {
-            if (!projects[i].hasOwnProperty('icon')) {
-                continue;
-            }
-
-            let icon = path.parse(projects[i].icon.path);
-
-            if (icon.dir === iconPath && octiconNames.indexOf(icon.name) >= 0) {
-                if (icons.indexOf(icon.name) === -1) {
-                    icons.push(icon.name);
-                }
-            }
-        }
+        let icons = this.usedIcons(projects);
 
         // Filter icons
         if (options && options.onlyMissing === true) {
@@ -94,9 +116,7 @@ class Icons {
         let renderOptions = [iconSize + ':' + iconSize, 'pad', 'path{fill:' + this._pathColor() + '}'];
 
         // Build render queue
-        for (let i = 0; i < icons.length; i++) {
-            let icon = icons[i];
-
+        for (let icon of icons) {
             if (icon && icon.length > 0) {
                 renderQueue.push({
                     input: path.join(octiconsPath, icon + '.svg'),
