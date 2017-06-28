@@ -97,7 +97,7 @@
 				<key>escaping</key>
 				<integer>0</integer>
 				<key>script</key>
-				<string>cd {query} &amp;&amp; npm i</string>
+				<string>cd {query} &amp;&amp; npm install --only=prod --no-shrinkwrap</string>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.terminalcommand</string>
