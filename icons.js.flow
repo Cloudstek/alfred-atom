@@ -67,6 +67,20 @@ class Icons {
     }
 
     /**
+     * Check icon building dependencies
+     * @return {boolean}
+     */
+    checkDependencies(): boolean {
+        try {
+            require.resolve('svgexport');
+        } catch (err) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Rebuild icon(s)
      * @param {Array.Object} projects
      * @param {Object} options
@@ -106,10 +120,9 @@ class Icons {
             return;
         }
 
-        if (Hugo.alfredThemeFile) {
-            try {
-                iconSize = Hugo.alfredTheme.result.iconSize;
-            } catch (e) {}
+        // Icon size if set by theme
+        if (Hugo.alfredTheme.result && Hugo.alfredTheme.result.iconSize) {
+            iconSize = Hugo.alfredTheme.result.iconSize;
         }
 
         // Render options
@@ -126,6 +139,11 @@ class Icons {
                 });
             }
         }
+
+        // Show notification
+        Hugo.notify({
+            message: `Rebuilding ${renderQueue.length} project icons, please wait.`
+        });
 
         // Render
         svgexport.render(renderQueue, err => {

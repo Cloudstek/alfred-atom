@@ -148,7 +148,7 @@
 			<key>config</key>
 			<dict>
 				<key>alfredfiltersresults</key>
-				<false/>
+				<true/>
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
@@ -168,7 +168,7 @@
 				<key>runningsubtext</key>
 				<string>Loading projects...</string>
 				<key>script</key>
-				<string>${nodePath:-/usr/local/bin/node} main.js projects "$1"</string>
+				<string>${nodePath:-/usr/local/bin/node} main.js projects</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>

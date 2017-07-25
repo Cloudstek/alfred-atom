@@ -3,7 +3,7 @@
   "version": "2.3.1",
   "description": "Simple workflow that allows you to browse and open Atom projects",
   "dependencies": {
-    "alfred-hugo": "^1.1.1",
+    "alfred-hugo": "^1.2.0",
     "alfred-link": "^0.2.0",
     "babel-runtime": "^6.23.0",
     "color": "^1.0.3",

@@ -12,7 +12,7 @@ const Icons = require('./icons');
  * Check for environment changes (workflow version, terminal app, nodejs path)
  * @return {void}
  */
-const checkEnv = (): void => {
+const checkEnvironmentChanges = (): void => {
     let clearCache = false;
 
     // Terminal app
@@ -67,28 +67,9 @@ const checkIcons = async (projects: Array<Object>): Promise<void> => {
 };
 
 /**
- * Check workflow dependencies
- * @return {boolean}
- */
-const checkDependencies = (): boolean => {
-    try {
-        require.resolve('svgexport');
-    } catch (err) {
-        return false;
-    }
-
-    return true;
-};
-
-/**
  * Projects action
  */
-Hugo.action('projects', query => {
-    if (!query || query.length === 0) {
-        Hugo.feedback();
-        return;
-    }
-
+Hugo.action('projects', () => {
     // Home dir
     const homedir = process.env.HOME || '';
 
@@ -96,7 +77,7 @@ Hugo.action('projects', query => {
     const projectsFile = Hugo.cacheFile(path.resolve(homedir, '.atom', 'projects.cson'), 'projects');
 
     // Check environment for changes
-    checkEnv();
+    checkEnvironmentChanges();
 
     // Parse projects
     projectsFile.on('change', (cache, file) => {
@@ -133,17 +114,15 @@ Hugo.action('projects', query => {
 
     if (projects && Array.isArray(projects)) {
         // Check dependencies for icon building
-        if (!checkDependencies() && Icons.usedIcons(projects).length > 0) {
+        if (!Icons.checkDependencies() && Icons.usedIcons(projects).length > 0) {
             console.error(`Missing dependencies to render project icons. Please run: cd ${__dirname} && npm install`);
 
             Hugo.addItem({
                 title: 'Missing dependencies',
                 subtitle: 'Missing dependencies to render project icons. Please press enter to install.',
-                arg: {
-                    arg: __dirname,
-                    variables: {
-                        task: 'wfDependencies'
-                    }
+                arg: __dirname,
+                variables: {
+                    task: 'wfDependencies'
                 },
                 valid: true,
                 mods: {
@@ -163,11 +142,8 @@ Hugo.action('projects', query => {
         checkIcons(projects);
     }
 
-    // Filter items by query
-    Hugo.filterItems(query.trim());
-
     // Check if any projects found
-    if (Hugo.itemCount < 1) {
+    if (Hugo.itemCount === 0) {
         Hugo.addItem({
             title: 'No projects found.'
         });
