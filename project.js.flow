@@ -112,40 +112,29 @@ class Project {
     }
 
     /**
-     * Alfred item arguments
+     * Open arguments
      * @param {Object} project
+     * @param {string} app Application name
+     * @param {Array.string} args Application arguments
      * @return {string}
      */
-    _atomArgument(project: Object, options: Array<string> = []): string {
-        let atomPath = process.env.atomPath || '/usr/local/bin/atom';
-
-        // Build shell command
-        let command = [
-            atomPath
-        ];
-
-        // Append Atom options
-        command = command.concat(options);
-
-        // Append project path(s)
-        if (project.paths) {
-            command.push('"' + project.paths.join('" "') + '"');
-        }
-
-        return command.join(' ');
-    }
-
-    _openArgument(project: Object, app: string): string {
+    _openArgument(project: Object, app: string, args: Array<string> = []): string {
         // Build shell command
         let command = [
             'open',
-            '-a',
+            '-na',
             `"${app}"`
         ];
 
         // Append project path(s)
         if (project.paths) {
             command.push('"' + project.paths.join('" "') + '"');
+        }
+
+        // Append arguments
+        if (args.length > 0) {
+            command.push('--args');
+            command = command.concat(args);
         }
 
         return command.join(' ');
@@ -158,12 +147,13 @@ class Project {
      */
     parse(project: Object): Object {
         let item = {
+            uid: new Buffer(this._title(project) + this._subtitle(project)).toString('base64'),
             title: this._title(project),
             subtitle: this._subtitle(project),
             icon: {
                 path: this._icon(project)
             },
-            arg: this._atomArgument(project),
+            arg: this._openArgument(project, 'Atom'),
             valid: project.paths && project.paths.length > 0,
             mods: {
                 alt: {
@@ -174,17 +164,17 @@ class Project {
                 cmd: {
                     valid: true,
                     subtitle: 'Open in new window',
-                    arg: this._atomArgument(project, ['-n'])
+                    arg: this._openArgument(project, 'Atom', ['-n'])
                 },
                 ctrl: {
                     valid: true,
                     subtitle: 'Open in development mode',
-                    arg: this._atomArgument(project, ['-d'])
+                    arg: this._openArgument(project, 'Atom', ['-d'])
                 },
                 fn: {
                     valid: true,
                     subtitle: 'Append project path(s) to last open window',
-                    arg: this._atomArgument(project, ['-a'])
+                    arg: this._openArgument(project, 'Atom', ['-a'])
                 },
                 shift: {
                     valid: true,
@@ -206,7 +196,7 @@ class Project {
         let result = [];
 
         for (let i = 0; i < projects.length; i++) {
-            result.push(this.parse(projects[i]));
+            result[result.length] = this.parse(projects[i]);
         }
 
         return result;
