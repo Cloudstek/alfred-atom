@@ -39,18 +39,18 @@ const checkEnvironmentChanges = (): void => {
  */
 const checkIcons = async (projects: Array<Object>): Promise<void> => {
     const themePath: string = Hugo.alfredMeta.themeFile;
-    const lastTheme: ?string = Hugo.cache.get('lastTheme');
+    const lastTheme: ?string = Hugo.config.get('lastTheme');
 
     try {
         fs.statSync(path.join(__dirname, 'icons'));
     } catch (e) {
-        Hugo.cache.set('lastTheme', Hugo.alfredMeta.theme);
+        Hugo.config.set('lastTheme', Hugo.alfredMeta.theme);
         Icons.rebuild(projects);
         return;
     }
 
     if (!lastTheme || lastTheme !== Hugo.alfredMeta.theme) {
-        Hugo.cache.set('lastTheme', Hugo.alfredMeta.theme);
+        Hugo.config.set('lastTheme', Hugo.alfredMeta.theme);
         Icons.rebuild(projects);
         return;
     }
@@ -64,6 +64,8 @@ const checkIcons = async (projects: Array<Object>): Promise<void> => {
 
         themeFile.get();
     }
+
+    Icons.rebuild(projects, {onlyMissing: true});
 };
 
 /**
