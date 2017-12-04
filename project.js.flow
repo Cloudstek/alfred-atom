@@ -84,7 +84,7 @@ class Project {
             }
 
             // Search for project icon if its path is relative
-            if (!path.isAbsolute(project.icon)) {
+            if (!path.isAbsolute(project.icon) && project.paths) {
                 for (let i = 0; i < project.paths.length; i++) {
                     iconPaths.push(path.resolve(project.paths[i], project.icon));
                 }
@@ -97,8 +97,10 @@ class Project {
         }
 
         // Search every project root dir for icon.png
-        for (let i = 0; i < project.paths.length; i++) {
-            iconPaths.push(path.join(project.paths[i], 'icon.png'));
+        if (project.paths) {
+            for (let i = 0; i < project.paths.length; i++) {
+                iconPaths.push(path.join(project.paths[i], 'icon.png'));
+            }
         }
 
         // Find project icon
