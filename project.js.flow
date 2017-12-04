@@ -196,7 +196,9 @@ class Project {
         let result = [];
 
         for (let i = 0; i < projects.length; i++) {
-            result[result.length] = this.parse(projects[i]);
+            if (projects[i].paths) {
+                result[result.length] = this.parse(projects[i]);
+            }
         }
 
         return result;
