@@ -148,7 +148,12 @@ class Project {
      * @param {Object} project
      * @return {Object}
      */
-    parse(project: Object): Object {
+    parse(project: Object): ?Object {
+        if (!project.paths) {
+            console.warn('Skipping project missing paths, possibly a template.');
+            return null;
+        }
+
         let item = {
             uid: new Buffer(this._title(project) + this._subtitle(project)).toString('base64'),
             title: this._title(project),
@@ -199,7 +204,11 @@ class Project {
         let result = [];
 
         for (let i = 0; i < projects.length; i++) {
-            result[result.length] = this.parse(projects[i]);
+            let project = this.parse(projects[i]);
+
+            if (project !== null && project !== undefined) {
+                result.push(project);
+            }
         }
 
         return result;
