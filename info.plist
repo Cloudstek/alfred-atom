@@ -338,15 +338,14 @@ Simply type atom and press space to list all projects. Optionally type a search 
 	</dict>
 	<key>variables</key>
 	<dict>
-		<key>nodePath</key>
-		<string>/usr/local/bin/node</string>
+		<key>atomApp</key>
+		<string>Atom</string>
 		<key>terminalApp</key>
 		<string>Terminal</string>
 	</dict>
 	<key>variablesdontexport</key>
 	<array>
 		<string>terminalApp</string>
-		<string>nodePath</string>
 	</array>
 	<key>version</key>
 	<string>2.3.2</string>

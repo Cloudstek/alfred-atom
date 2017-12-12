@@ -4,7 +4,8 @@ const fs = require('fs');
 const octicons = require('octicons');
 const path = require('path');
 
-const atomAppName = process.env.atomAppName || 'Atom';
+const atomApp = process.env.atomApp || 'Atom';
+const terminalApp = process.env.terminalApp || 'Terminal';
 
 /**
  * Atom Project
@@ -155,28 +156,28 @@ class Project {
             icon: {
                 path: this._icon(project)
             },
-            arg: this._openArgument(project, atomAppName),
+            arg: this._openArgument(project, atomApp),
             valid: project.paths && project.paths.length > 0,
             mods: {
                 alt: {
                     valid: true,
                     subtitle: 'Open project path(s) in terminal',
-                    arg: this._openArgument(project, process.env.terminalApp || 'Terminal')
+                    arg: this._openArgument(project, terminalApp)
                 },
                 cmd: {
                     valid: true,
                     subtitle: 'Open in new window',
-                    arg: this._openArgument(project, atomAppName, ['-n'])
+                    arg: this._openArgument(project, atomApp, ['-n'])
                 },
                 ctrl: {
                     valid: true,
                     subtitle: 'Open in development mode',
-                    arg: this._openArgument(project, atomAppName, ['-d'])
+                    arg: this._openArgument(project, atomApp, ['-d'])
                 },
                 fn: {
                     valid: true,
                     subtitle: 'Append project path(s) to last open window',
-                    arg: this._openArgument(project, atomAppName, ['-a'])
+                    arg: this._openArgument(project, atomApp, ['-a'])
                 },
                 shift: {
                     valid: true,
