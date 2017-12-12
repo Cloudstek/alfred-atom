@@ -4,6 +4,9 @@ const fs = require('fs');
 const octicons = require('octicons');
 const path = require('path');
 
+const atomApp = process.env.atomApp || 'Atom';
+const terminalApp = process.env.terminalApp || 'Terminal';
+
 /**
  * Atom Project
  * @class
@@ -145,36 +148,41 @@ class Project {
      * @param {Object} project
      * @return {Object}
      */
-    parse(project: Object): Object {
+    parse(project: Object): ?Object {
+        if (!project.paths) {
+            console.warn('Skipping project missing paths, possibly a template.');
+            return null;
+        }
+
         let item = {
-            uid: new Buffer(this._title(project) + this._subtitle(project)).toString('base64'),
+            uid: Buffer.from(this._title(project) + this._subtitle(project), 'utf8').toString('base64'),
             title: this._title(project),
             subtitle: this._subtitle(project),
             icon: {
                 path: this._icon(project)
             },
-            arg: this._openArgument(project, 'Atom'),
+            arg: this._openArgument(project, atomApp),
             valid: project.paths && project.paths.length > 0,
             mods: {
                 alt: {
                     valid: true,
                     subtitle: 'Open project path(s) in terminal',
-                    arg: this._openArgument(project, process.env.terminalApp || 'Terminal')
+                    arg: this._openArgument(project, terminalApp)
                 },
                 cmd: {
                     valid: true,
                     subtitle: 'Open in new window',
-                    arg: this._openArgument(project, 'Atom', ['-n'])
+                    arg: this._openArgument(project, atomApp, ['-n'])
                 },
                 ctrl: {
                     valid: true,
                     subtitle: 'Open in development mode',
-                    arg: this._openArgument(project, 'Atom', ['-d'])
+                    arg: this._openArgument(project, atomApp, ['-d'])
                 },
                 fn: {
                     valid: true,
                     subtitle: 'Append project path(s) to last open window',
-                    arg: this._openArgument(project, 'Atom', ['-a'])
+                    arg: this._openArgument(project, atomApp, ['-a'])
                 },
                 shift: {
                     valid: true,
@@ -196,7 +204,11 @@ class Project {
         let result = [];
 
         for (let i = 0; i < projects.length; i++) {
-            result[result.length] = this.parse(projects[i]);
+            let project = this.parse(projects[i]);
+
+            if (project !== null && project !== undefined) {
+                result.push(project);
+            }
         }
 
         return result;
