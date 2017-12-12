@@ -155,7 +155,7 @@ class Project {
         }
 
         let item = {
-            uid: new Buffer(this._title(project) + this._subtitle(project)).toString('base64'),
+            uid: Buffer.from(this._title(project) + this._subtitle(project), 'utf8').toString('base64'),
             title: this._title(project),
             subtitle: this._subtitle(project),
             icon: {
