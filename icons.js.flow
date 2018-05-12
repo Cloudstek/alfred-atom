@@ -17,13 +17,14 @@ try {
 class Icons {
     /**
      * SVG icon path color
-     * @return {string}
+     *
+     * @return {string} SVG icon color as hex RGB
      */
     _pathColor(): string {
         let iconColor = color('#FFFFFF');
 
         // Decide color based on text or background color
-        if (Hugo.alfredThemeFile) {
+        if (Hugo.alfredMeta.themeFile) {
             try {
                 iconColor = color(Hugo.alfredTheme.result.text.color);
             } catch (e) {}
@@ -37,8 +38,10 @@ class Icons {
 
     /**
      * Get list of used icons in projects
-     * @param {Array.Object} projects
-     * @return {Array.string}
+     *
+     * @param {Array.Object} projects List of Atom project definitions
+     *
+     * @return {Array.string} List of icons
      */
     usedIcons(projects: Array<Object>): Array<string> {
         let icons = [];
@@ -68,7 +71,8 @@ class Icons {
 
     /**
      * Check icon building dependencies
-     * @return {boolean}
+     *
+     * @return {boolean} True if all icon dependencies are available
      */
     checkDependencies(): boolean {
         try {
@@ -82,9 +86,10 @@ class Icons {
 
     /**
      * Rebuild icon(s)
-     * @param {Array.Object} projects
-     * @param {Object} options
-     * @return {Promise}
+     *
+     * @param {Array.Object} projects List of Atom project definitions
+     * @param {Object} options Options
+     * @return {Promise} Async promise
      * @async
      */
     async rebuild(projects: Array<Object>, options: Object = {}) {

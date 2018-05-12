@@ -97,7 +97,13 @@
 				<key>escaping</key>
 				<integer>0</integer>
 				<key>script</key>
-				<string>cd {query} &amp;&amp; npm install --only=prod --no-shrinkwrap</string>
+				<string>cd {query}
+
+if hash yarn 2&gt;/dev/null; then
+    yarn --prod
+else
+    npm install --only=prod
+fi</string>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.terminalcommand</string>
@@ -348,7 +354,7 @@ Simply type atom and press space to list all projects. Optionally type a search 
 		<string>terminalApp</string>
 	</array>
 	<key>version</key>
-	<string>2.3.2</string>
+	<string>2.4.0</string>
 	<key>webaddress</key>
 	<string>https://github.com/Cloudstek/alfred-atom</string>
 </dict>

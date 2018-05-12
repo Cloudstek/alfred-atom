@@ -3,19 +3,19 @@
 const fs = require('fs');
 const octicons = require('octicons');
 const path = require('path');
+const glob = require('glob');
+const changeCase = require('change-case');
 
 const atomApp = process.env.atomApp || 'Atom';
 const terminalApp = process.env.terminalApp || 'Terminal';
 
-/**
- * Atom Project
- * @class
- */
 class Project {
     /**
      * Check if file exists
-     * @param {string} path
-     * @return {boolean}
+     *
+     * @param {string} path File path
+     *
+     * @return {boolean} True if file exists
      */
     _fileExists(path: string): boolean {
         try {
@@ -28,8 +28,10 @@ class Project {
 
     /**
      * Project UID
-     * @param {Object} project
-     * @return {string}
+     *
+     * @param {Object} project Atom project definition
+     *
+     * @return {string} Unique Alfred item ID used for caching
      */
     _uid(project: Object): string {
         return project.title.toLowerCase().replace(' ', '_');
@@ -37,8 +39,10 @@ class Project {
 
     /**
      * Project title
-     * @param {Object} project
-     * @return {string}
+     *
+     * @param {Object} project Atom project definition
+     *
+     * @return {string} Title
      */
     _title(project: Object): string {
         let title:string = project.title;
@@ -52,8 +56,10 @@ class Project {
 
     /**
      * Project sub-title
-     * @param {Object} project
-     * @return {string}
+     *
+     * @param {Object} project Atom project definition
+     *
+     * @return {string} Sub-title
      */
     _subtitle(project: Object): string {
         if (project.paths) {
@@ -65,7 +71,9 @@ class Project {
 
     /**
      * Project icon
-     * @param {Object} project
+     *
+     * @param {Object} project Atom project definition
+     *
      * @return {string} Full path to icon
      */
     _icon(project: Object) {
@@ -116,10 +124,12 @@ class Project {
 
     /**
      * Open arguments
-     * @param {Object} project
+     *
+     * @param {Object} project Atom project definition
      * @param {string} app Application name
      * @param {Array.string} args Application arguments
-     * @return {string}
+     *
+     * @return {string} Open command
      */
     _openArgument(project: Object, app: string, args: Array<string> = []): string {
         // Build shell command
@@ -145,8 +155,10 @@ class Project {
 
     /**
      * Parse project
-     * @param {Object} project
-     * @return {Object}
+     *
+     * @param {Object} project Atom project definition
+     *
+     * @return {Object} Alfred item
      */
     parse(project: Object): ?Object {
         if (!project.paths) {
@@ -197,8 +209,10 @@ class Project {
 
     /**
      * Parse a list of projects
-     * @param {Array.Object} projects
-     * @return {Array.Object}
+     *
+     * @param {Array.Object} projects List of Atom project definitions
+     *
+     * @return {Array.Object} Alfred items
      */
     parseAll(projects: Array<Object>): Array<Object> {
         let result = [];
@@ -212,6 +226,38 @@ class Project {
         }
 
         return result;
+    }
+
+    /**
+     * Find git repositories and turn it into a list of results
+     *
+     * @param {string} projectHome Directory to search for git repositories
+     * @param {boolean} prettifyTitle Prettify title
+     *
+     * @return {Array.Object} Alfred items
+     */
+    findGitRepositories(projectHome: string, prettifyTitle: boolean = true): Array<Object> {
+        let projects = [];
+
+        let dirs:Array<string> = glob.sync('*/.git', {
+            cwd: projectHome
+        });
+
+        dirs.forEach(dir => {
+            dir = dir.substring(0, dir.indexOf('/.git'));
+
+            let project = {
+                title: prettifyTitle ? changeCase.title(dir) : dir,
+                group: 'Git repository',
+                paths: [
+                    path.resolve(projectHome, dir)
+                ]
+            };
+
+            projects.push(project);
+        });
+
+        return this.parseAll(projects);
     }
 }
 

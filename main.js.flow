@@ -10,7 +10,6 @@ const Icons = require('./icons');
 
 /**
  * Check for environment changes (workflow version, terminal app, nodejs path)
- * @return {void}
  */
 const checkEnvironmentChanges = (): void => {
     let clearCache = false;
@@ -34,8 +33,8 @@ const checkEnvironmentChanges = (): void => {
 
 /**
  * Check if we need to rebuild icons
- * @param {Array.Object} projects
- * @return {Promise}
+ *
+ * @param {Array.Object} projects List of Atom project definitions
  */
 const checkIcons = async (projects: Array<Object>): Promise<void> => {
     const themePath: string = Hugo.alfredMeta.themeFile;
@@ -77,6 +76,7 @@ Hugo.action('projects', () => {
 
     // Projects file
     const projectsFile = Hugo.cacheFile(path.resolve(homedir, '.atom', 'projects.cson'), 'projects');
+    const configFile = Hugo.cacheFile(path.resolve(homedir, '.atom', 'config.cson'), 'config');
 
     // Check environment for changes
     checkEnvironmentChanges();
@@ -84,7 +84,7 @@ Hugo.action('projects', () => {
     // Parse projects
     projectsFile.on('change', (cache, file) => {
         // Read projects file
-        let projects = CSON.parse(file) || [];
+        let projects:Array<Object> = CSON.parse(file) || [];
 
         // Parse projects
         projects = Project.parseAll(projects);
@@ -111,8 +111,46 @@ Hugo.action('projects', () => {
         cache.store(projects);
     });
 
+    // Parse config
+    configFile.on('change', (cache, file) => {
+        // Read config file
+        let config:Object = CSON.parse(file) || {};
+
+        config = config['*'] || {};
+
+        cache.store(config);
+    });
+
     // Add projects to Hugo
-    let projects = projectsFile.get();
+    let projects = projectsFile.get() || [];
+
+    // Get config
+    let config = ((configFile.get(): any): Object);
+
+    // Fetch all git projects
+    if (config['project-manager'] && config['project-manager'].includeGitRepositories === true) {
+        let projectHome = config.core.projectHome || path.resolve(homedir, 'github');
+        let prettifyTitle = config['project-manager'].prettifyTitle === undefined ? true : config['project-manager'].prettifyTitle;
+
+        // Find git repositories
+        let gitProjects = Project.findGitRepositories(projectHome, prettifyTitle) || [];
+
+        // Don't include existing projects
+        if (projects.length > 0) {
+            gitProjects = gitProjects.filter(gitProject => {
+                let existingPaths = [];
+
+                projects.forEach(project => {
+                    let paths = project.subtitle.split(', ') || [];
+                    existingPaths = existingPaths.concat(paths);
+                });
+
+                return !existingPaths.includes(gitProject.subtitle);
+            });
+        }
+
+        projects = projects.concat(gitProjects);
+    }
 
     if (projects && Array.isArray(projects)) {
         // Check dependencies for icon building
