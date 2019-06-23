@@ -8,8 +8,20 @@
 	<string>Productivity</string>
 	<key>connections</key>
 	<dict>
-		<key>14E5559D-490B-4316-8AB3-F36197AD4437</key>
+		<key>6AB68CEC-21CF-4A54-B100-1F929753CEF8</key>
 		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>38D13A34-4B8D-4D25-9DDE-8BC333F74A1F</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>1B859C8F-FFF6-4EEA-91E7-536DCC001887</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
 			<dict>
 				<key>destinationuid</key>
 				<string>A28E26AB-2CA3-4F6D-8A86-A5909476B368</string>
@@ -25,53 +37,7 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>A9BDC031-5867-43C6-A144-A4EBE5708313</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-			<dict>
-				<key>destinationuid</key>
-				<string>D6E4B519-8F01-4A94-B5EB-E8DC8CFE0CD7</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-			<dict>
-				<key>destinationuid</key>
-				<string>14E5559D-490B-4316-8AB3-F36197AD4437</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-		</array>
-		<key>A9BDC031-5867-43C6-A144-A4EBE5708313</key>
-		<array>
-			<dict>
-				<key>destinationuid</key>
-				<string>E96A3765-A53D-4ED3-8422-31131BB6A485</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-		</array>
-		<key>D6E4B519-8F01-4A94-B5EB-E8DC8CFE0CD7</key>
-		<array>
-			<dict>
-				<key>destinationuid</key>
-				<string>38D13A34-4B8D-4D25-9DDE-8BC333F74A1F</string>
+				<string>6AB68CEC-21CF-4A54-B100-1F929753CEF8</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -91,46 +57,6 @@
 	<string>Atom</string>
 	<key>objects</key>
 	<array>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>escaping</key>
-				<integer>0</integer>
-				<key>script</key>
-				<string>cd {query}
-
-if hash yarn 2&gt;/dev/null; then
-    yarn --prod
-else
-    npm install --only=prod
-fi</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.terminalcommand</string>
-			<key>uid</key>
-			<string>E96A3765-A53D-4ED3-8422-31131BB6A485</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>inputstring</key>
-				<string>{var:task}</string>
-				<key>matchcasesensitive</key>
-				<true/>
-				<key>matchmode</key>
-				<integer>0</integer>
-				<key>matchstring</key>
-				<string>wfDependencies</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.utility.filter</string>
-			<key>uid</key>
-			<string>A9BDC031-5867-43C6-A144-A4EBE5708313</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
@@ -157,6 +83,8 @@ fi</string>
 				<true/>
 				<key>alfredfiltersresultsmatchmode</key>
 				<integer>2</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
@@ -176,7 +104,7 @@ fi</string>
 				<key>runningsubtext</key>
 				<string>Loading projects...</string>
 				<key>script</key>
-				<string>${nodePath:-/usr/local/bin/node} main.js projects</string>
+				<string>${nodePath:-/usr/local/bin/node} dist/index.js projects</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -195,24 +123,35 @@ fi</string>
 			<key>uid</key>
 			<string>8AF6156F-3E0C-46B9-8D05-5A5589D09EF5</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>inputstring</key>
-				<string></string>
-				<key>matchcasesensitive</key>
-				<false/>
-				<key>matchmode</key>
-				<integer>2</integer>
-				<key>matchstring</key>
-				<string>^https?:\/\/.*</string>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
+						<string></string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>4</integer>
+						<key>matchstring</key>
+						<string>^https?:\/\/.*</string>
+						<key>outputlabel</key>
+						<string>url</string>
+						<key>uid</key>
+						<string>1B859C8F-FFF6-4EEA-91E7-536DCC001887</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string>atom</string>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.utility.filter</string>
+			<string>alfred.workflow.utility.conditional</string>
 			<key>uid</key>
-			<string>D6E4B519-8F01-4A94-B5EB-E8DC8CFE0CD7</string>
+			<string>6AB68CEC-21CF-4A54-B100-1F929753CEF8</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -239,25 +178,6 @@ fi</string>
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>inputstring</key>
-				<string>{var:task}</string>
-				<key>matchcasesensitive</key>
-				<false/>
-				<key>matchmode</key>
-				<integer>0</integer>
-				<key>matchstring</key>
-				<string></string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.utility.filter</string>
-			<key>uid</key>
-			<string>14E5559D-490B-4316-8AB3-F36197AD4437</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
 	</array>
 	<key>readme</key>
 	<string>Simple workflow that allows you to browse and open Atom projects.
@@ -270,15 +190,6 @@ Usage:
 Simply type atom and press space to list all projects. Optionally type a search string to filter results.</string>
 	<key>uidata</key>
 	<dict>
-		<key>14E5559D-490B-4316-8AB3-F36197AD4437</key>
-		<dict>
-			<key>colorindex</key>
-			<integer>4</integer>
-			<key>xpos</key>
-			<integer>580</integer>
-			<key>ypos</key>
-			<integer>470</integer>
-		</dict>
 		<key>38D13A34-4B8D-4D25-9DDE-8BC333F74A1F</key>
 		<dict>
 			<key>colorindex</key>
@@ -286,9 +197,16 @@ Simply type atom and press space to list all projects. Optionally type a search 
 			<key>note</key>
 			<string>Update workflow</string>
 			<key>xpos</key>
-			<integer>710</integer>
+			<integer>555</integer>
 			<key>ypos</key>
-			<integer>280</integer>
+			<integer>205</integer>
+		</dict>
+		<key>6AB68CEC-21CF-4A54-B100-1F929753CEF8</key>
+		<dict>
+			<key>xpos</key>
+			<integer>380</integer>
+			<key>ypos</key>
+			<integer>300</integer>
 		</dict>
 		<key>8AF6156F-3E0C-46B9-8D05-5A5589D09EF5</key>
 		<dict>
@@ -308,38 +226,9 @@ Simply type atom and press space to list all projects. Optionally type a search 
 			<key>note</key>
 			<string>Run atom</string>
 			<key>xpos</key>
-			<integer>710</integer>
+			<integer>555</integer>
 			<key>ypos</key>
-			<integer>440</integer>
-		</dict>
-		<key>A9BDC031-5867-43C6-A144-A4EBE5708313</key>
-		<dict>
-			<key>colorindex</key>
-			<integer>2</integer>
-			<key>xpos</key>
-			<integer>580</integer>
-			<key>ypos</key>
-			<integer>150</integer>
-		</dict>
-		<key>D6E4B519-8F01-4A94-B5EB-E8DC8CFE0CD7</key>
-		<dict>
-			<key>colorindex</key>
-			<integer>7</integer>
-			<key>xpos</key>
-			<integer>580</integer>
-			<key>ypos</key>
-			<integer>310</integer>
-		</dict>
-		<key>E96A3765-A53D-4ED3-8422-31131BB6A485</key>
-		<dict>
-			<key>colorindex</key>
-			<integer>2</integer>
-			<key>note</key>
-			<string>Install dependencies</string>
-			<key>xpos</key>
-			<integer>710</integer>
-			<key>ypos</key>
-			<integer>120</integer>
+			<integer>360</integer>
 		</dict>
 	</dict>
 	<key>variables</key>
@@ -350,11 +239,9 @@ Simply type atom and press space to list all projects. Optionally type a search 
 		<string>Terminal</string>
 	</dict>
 	<key>variablesdontexport</key>
-	<array>
-		<string>terminalApp</string>
-	</array>
+	<array/>
 	<key>version</key>
-	<string>2.4.0</string>
+	<string>2.5.0</string>
 	<key>webaddress</key>
 	<string>https://github.com/Cloudstek/alfred-atom</string>
 </dict>
