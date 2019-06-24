@@ -1,52 +1,61 @@
 {
   "name": "alfred-atom",
-  "version": "2.4.0",
-  "description": "Simple workflow that allows you to browse and open Atom projects",
-  "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.46",
-    "alfred-hugo": "^1.2.0",
-    "alfred-link": "^0.2.1",
-    "change-case": "^3.0.2",
-    "color": "^3.0.0",
-    "cson-parser": "^3.0.0",
-    "glob": "^7.1.2",
-    "moment": "^2.19.4",
-    "octicons": "^7.0.1"
-  },
-  "scripts": {
-    "build": "gulp",
-    "watch": "gulp watch",
-    "postinstall": "alfred-link",
-    "preuninstall": "alfred-unlink"
-  },
+  "version": "3.0.0",
   "repository": "Cloudstek/alfred-atom",
   "author": "Maarten de Boer <maarten@cloudstek.nl> (https://cloudstek.nl)",
   "license": "BSD-2-Clause",
   "bugs": "https://github.com/Cloudstek/alfred-atom/issues",
+  "description": "Simple workflow that allows you to browse and open Atom projects",
+  "main": "dist/index.js",
+  "files": [
+    "/dist",
+    "/info.plist",
+    "/icon.png"
+  ],
+  "keywords": [
+    "alfred",
+    "workflow",
+    "atom",
+    "ide",
+    "editor",
+    "projects"
+  ],
+  "dependencies": {
+    "@primer/octicons": "^9.1.1",
+    "alfred-hugo": "^2.0.0",
+    "change-case": "^3.1.0",
+    "color": "^3.0.0",
+    "cson-parser": "^4.0.2",
+    "fs-extra": "^8.0.1",
+    "glob": "^7.1.2",
+    "moment": "^2.19.4",
+    "sharp": "^0.22.1",
+    "untildify": "^4.0.0"
+  },
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.46",
-    "@babel/plugin-transform-runtime": "^7.0.0-beta.46",
-    "@babel/preset-env": "^7.0.0-beta.46",
-    "@babel/preset-flow": "^7.0.0-beta.46",
-    "@babel/register": "^7.0.0-beta.46",
-    "ansi-colors": "^2.0.1",
-    "babel-eslint": "^8.0.3",
-    "eslint": "^4.13.1",
-    "eslint-config-xo": "^0.22.1",
-    "eslint-formatter-pretty": "^1.3.0",
-    "eslint-plugin-flowtype-errors": "^3.3.6",
-    "fancy-log": "^1.3.2",
-    "flow-bin": "^0.72.0",
-    "gulp": "^4.0",
-    "gulp-babel": "^8.0.0-beta.2",
-    "gulp-eslint": "^4.0.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-sourcemaps": "^2.6.1"
+    "@types/color": "^3.0.0",
+    "@types/cson-parser": "^4.0.0",
+    "@types/fs-extra": "^7.0.0",
+    "@types/glob": "^7.1.1",
+    "@types/node": "^12.0.2",
+    "@types/sharp": "^0.22.2",
+    "del-cli": "^2.0.0",
+    "npm-run-all": "^4.1.5",
+    "tslint": "^5.18.0",
+    "typescript": "^3.4.5"
   },
   "engines": {
-    "node": ">=4"
+    "node": ">=8"
   },
-  "optionalDependencies": {
-    "svgexport": "github:cloudstek/svgexport"
+  "scripts": {
+    "clean": "npm-run-all -p clean:*",
+    "clean:dist": "del-cli dist",
+    "build": "npm-run-all -s clean:* build:*",
+    "build:dist": "tsc",
+    "lint": "npm-run-all -l -p lint:*",
+    "lint:src": "tslint src/**/*.ts",
+    "lint:test": "tslint test/**/*.ts",
+    "postinstall": "hugo-link",
+    "preuninstall": "hugo-unlink"
   }
 }
