@@ -2,15 +2,11 @@
 
 Simple workflow that allows you to browse and open [Atom](https://atom.io/) projects.
 
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Usage](#usage)
-
 ## Requirements
 
-- [NodeJS](https://nodejs.org)
+- [NodeJS](https://nodejs.org) 8+
 - [Atom Project Manager package](https://atom.io/packages/project-manager)
-- [Alfred Powerpack](https://www.alfredapp.com/powerpack)
+- Alfred 4 with paid [Alfred Powerpack](https://www.alfredapp.com/powerpack)
 
 ## Installation
 
@@ -37,3 +33,5 @@ Simply type `atom` followed by space to list all projects. Optionally type a sea
 > No projects are listed by the `atom` command
 
 You most likely have an invalid `projects.cson` file. Some edge cases may be handled by the Atom Project Manager package but not handled in Alfred Atom Workflow. Check that the format matches https://github.com/danielbrodin/atom-project-manager#example.
+
+Also check out the debug output, see the [Using the Workflow Debugger](https://www.alfredapp.com/help/workflows/advanced/debugger/) section of the Alfred documentation.
