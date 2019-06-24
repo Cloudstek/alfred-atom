@@ -1,4 +1,7 @@
+.yalc/
 node_modules/
 icons/
 persist/
 npm-debug.log
+yarn-error.log
+yalc.lock
