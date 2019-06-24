@@ -21,7 +21,7 @@
   ],
   "dependencies": {
     "@primer/octicons": "^9.1.1",
-    "alfred-hugo": "^2.0.0-beta.1",
+    "alfred-hugo": "^2.0.0",
     "change-case": "^3.1.0",
     "color": "^3.0.0",
     "cson-parser": "^4.0.2",
