@@ -109,8 +109,10 @@
   dependencies:
     "@types/node" "*"
 
-"alfred-hugo@file:.yalc/alfred-hugo":
-  version "2.0.0-beta.2-de67c6c3"
+alfred-hugo@^2.0.0:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/alfred-hugo/-/alfred-hugo-2.0.1.tgz#1ce96eb18603cdb0cd955fb2e1279a13d5c44cc9"
+  integrity sha512-xh9CY3SgWRzJPEh0sgfkgE+iz/NZU9X1OLUSPx1NGYEIjEUaDyOLJrKVAioTdu/7L4A6R+cDGuhfdKIXw1wGgg==
   dependencies:
     "@cloudstek/cache" "^1.0.1"
     "@types/node-notifier" "^5.4.0"

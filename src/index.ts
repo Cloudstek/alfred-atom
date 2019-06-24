@@ -6,7 +6,11 @@ import { Icons } from "./icons";
 import * as utils from "./utils";
 import { Projects } from "./project";
 
-const hugo = new Hugo();
+const hugo = new Hugo({
+    checkUpdates: true,
+    updateNotification: false,
+    updateSource: "npm",
+});
 
 hugo.action("projects", () => {
     // Projects file
