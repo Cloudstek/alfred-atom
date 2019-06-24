@@ -1,7 +1,7 @@
 .yalc/
 node_modules/
-icons/
-persist/
+/persist/
+/dist/
 npm-debug.log
 yarn-error.log
 yalc.lock
