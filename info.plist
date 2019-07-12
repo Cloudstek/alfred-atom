@@ -182,10 +182,6 @@
 	<key>readme</key>
 	<string>Simple workflow that allows you to browse and open Atom projects.
 
-Requirements:
-- NodeJS (node)
-- Atom Project Manager package (https://atom.io/packages/project-manager)
-
 Usage:
 Simply type atom and press space to list all projects. Optionally type a search string to filter results.</string>
 	<key>uidata</key>
@@ -238,6 +234,10 @@ Simply type atom and press space to list all projects. Optionally type a search 
 		<key>terminalApp</key>
 		<string>Terminal</string>
 	</dict>
+	<key>variablesdontexport</key>
+	<array>
+		<string>terminalApp</string>
+	</array>
 	<key>version</key>
 	<string>3.0.0</string>
 	<key>webaddress</key>
