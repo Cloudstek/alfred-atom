@@ -40,7 +40,6 @@
     "@types/node": "^12.0.2",
     "@types/sharp": "^0.22.2",
     "del-cli": "^2.0.0",
-    "npm-run-all": "^4.1.5",
     "tslint": "^5.18.0",
     "typescript": "^3.4.5"
   },
@@ -48,13 +47,10 @@
     "node": ">=8"
   },
   "scripts": {
-    "clean": "npm-run-all -p clean:*",
-    "clean:dist": "del-cli dist",
-    "build": "npm-run-all -s clean:* build:*",
-    "build:dist": "tsc",
-    "lint": "npm-run-all -l -p lint:*",
-    "lint:src": "tslint src/**/*.ts",
-    "lint:test": "tslint test/**/*.ts",
+    "clean": "del-cli dist*",
+    "build": "del-cli dist && tsc",
+    "watch": "del-cli dist && tsc --watch",
+    "lint": "tslint src/**/*.ts*",
     "postinstall": "hugo-link",
     "preuninstall": "hugo-unlink"
   }
