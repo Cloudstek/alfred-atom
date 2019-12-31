@@ -1,6 +1,6 @@
 {
   "name": "alfred-atom",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "repository": "Cloudstek/alfred-atom",
   "author": "Maarten de Boer <maarten@cloudstek.nl> (https://cloudstek.nl)",
   "license": "BSD-2-Clause",
@@ -10,7 +10,8 @@
   "files": [
     "/dist",
     "/info.plist",
-    "/icon.png"
+    "/icon.png",
+    "yarn.lock"
   ],
   "keywords": [
     "alfred",
@@ -23,7 +24,7 @@
   "dependencies": {
     "@primer/octicons": "^9.3.1",
     "alfred-hugo": "^2.0.3",
-    "change-case": "^3.1.0",
+    "change-case": "^4.1.1",
     "color": "^3.1.2",
     "cson-parser": "^4.0.3",
     "fs-extra": "^8.1.0",
@@ -36,7 +37,7 @@
     "@types/color": "^3.0.0",
     "@types/fs-extra": "^8.0.1",
     "@types/glob": "^7.1.1",
-    "@types/node": "^12.12.14",
+    "@types/node": "^13.1.2",
     "@types/sharp": "^0.23.0",
     "del-cli": "^3.0.0",
     "tslint": "^5.20.1",

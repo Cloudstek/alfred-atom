@@ -1,5 +1,5 @@
 import cson from "cson-parser";
-import changeCase from "change-case";
+import { capitalCase } from "change-case";
 import path from "path";
 import glob from "glob";
 import { Item } from "alfred-hugo";
@@ -107,7 +107,7 @@ export class Projects {
             dir = dir.substring(0, dir.indexOf("/.git"));
 
             const project: Project = {
-                title: prettifyTitle ? changeCase.title(dir) : dir,
+                title: prettifyTitle ? capitalCase(dir) : dir,
                 group: "Git repository",
                 paths: [
                     path.resolve(projectHome, dir),
