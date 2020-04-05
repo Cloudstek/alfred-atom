@@ -4,17 +4,19 @@ Simple workflow that allows you to browse and open [Atom](https://atom.io/) proj
 
 ## Requirements
 
-- NodeJS 8+
+- NodeJS 10+
 - [Atom Project Manager package](https://atom.io/packages/project-manager)
 - Alfred 4 with paid [Alfred Powerpack](https://www.alfredapp.com/powerpack)
 
 ## Installation
 
-### NPM (preferred)
+### Yarn / NPM (preferred)
 
-This workflow can be installed with NPM, as an added bonus you'll get a notification when an update is available!
+This workflow can be installed with Yarn or NPM, as an added bonus you'll get a notification when an update is available!
 
 ```shell
+yarn add -g alfred-atom
+# or
 npm install -g alfred-atom
 ```
 
@@ -24,7 +26,7 @@ Because some dependencies are quite big you have to run `npm install` yourself a
 
 1. Download the latest `Atom.alfredworkflow` from [Packal](http://www.packal.org/workflow/atom) or [GitHub](https://github.com/Cloudstek/alfred-atom/releases) and import it in Alfred.
 2. Open Alfred and go to Workflows. Right-click on Atom and click on *"Open in Terminal"*
-3. In the terminal, enter `npm install`
+3. In the terminal, enter `yarn` or `npm install`.
 
 ## Usage
 
