@@ -24,7 +24,7 @@ export function checkEnvironmentChanges(hugo: Hugo): void {
     }
 }
 
-export function checkIcons(hugo: Hugo, items: Item[]): Promise<void> {
+export async function checkIcons(hugo: Hugo, items: Item[]): Promise<void> {
     const themePath = hugo.alfredMeta.themeFile;
     const lastTheme = hugo.config.get("lastTheme");
 
@@ -32,27 +32,25 @@ export function checkIcons(hugo: Hugo, items: Item[]): Promise<void> {
         fs.statSync(path.join(__dirname, "icons"));
     } catch (e) {
         hugo.config.set("lastTheme", hugo.alfredMeta.theme);
-        Icons.rebuild(items, { theme: hugo.alfredTheme });
-        return;
+        return Icons.rebuild(items, { theme: hugo.alfredTheme });
     }
 
     if (!lastTheme || lastTheme !== hugo.alfredMeta.theme) {
         hugo.config.set("lastTheme", hugo.alfredMeta.theme);
-        Icons.rebuild(items, { theme: hugo.alfredTheme });
-        return;
+        return Icons.rebuild(items, { theme: hugo.alfredTheme });
     }
 
     if (themePath) {
         const themeFile = hugo.cacheFile(themePath);
 
-        themeFile.on("change", () => {
-            Icons.rebuild(items, { theme: hugo.alfredTheme });
+        await themeFile.on("change", async () => {
+            await Icons.rebuild(items, { theme: hugo.alfredTheme });
         });
 
         themeFile.get();
     }
 
-    Icons.rebuild(items, { onlyMissing: true, theme: hugo.alfredTheme });
+    return Icons.rebuild(items, { onlyMissing: true, theme: hugo.alfredTheme });
 }
 
 export function fileExists(p: string): boolean {

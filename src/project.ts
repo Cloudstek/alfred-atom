@@ -1,12 +1,12 @@
 import cson from "cson-parser";
-import { capitalCase } from "change-case";
+import {capitalCase} from "change-case";
 import path from "path";
 import glob from "glob";
-import { Item } from "alfred-hugo";
+import {Item} from "alfred-hugo";
 
-import { Project, Octicon } from "./types";
+import {Octicon, Project} from "./types";
 import * as utils from "./utils";
-import { Icons } from "./icons";
+import {Icons} from "./icons";
 
 export class Projects {
     /**
@@ -23,7 +23,7 @@ export class Projects {
             octicons = Icons.all();
         }
 
-        const item = {
+        return {
             uid: Buffer.from(this.title(project) + this.subTitle(project), "utf8").toString("base64"),
             title: this.title(project),
             subtitle: this.subTitle(project),
@@ -60,8 +60,6 @@ export class Projects {
                 },
             },
         };
-
-        return item;
     }
 
     /**
@@ -75,7 +73,7 @@ export class Projects {
         for (const project of projects) {
             const p = this.parse(project, octicons);
 
-            if (p && p !== null) {
+            if (p) {
                 results.push(p);
             }
         }
