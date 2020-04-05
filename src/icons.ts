@@ -2,9 +2,9 @@ import fs from "fs-extra";
 import path from "path";
 import color from "color";
 import sharp from "sharp";
-import { Item } from "alfred-hugo";
+import {Item} from "alfred-hugo";
 
-import { IconsRebuildOptions, Octicon } from "./types";
+import {IconsRebuildOptions, Octicon} from "./types";
 
 export class Icons {
     public static all() {
@@ -87,20 +87,24 @@ export class Icons {
         }
 
         // Create icons dir if not exists
-        fs.ensureDir(path.join(__dirname, "icons"));
+        await fs.ensureDir(path.join(__dirname, "icons"));
+
+        let sharpTasks: Promise<sharp.OutputInfo>[];
 
         for (const [name, icon] of icons) {
-            // console.log(iconSize, iconColor.rgb().toString());
-
             // Add fill to SVG path
-            const svgPath = icon.path.replace(/\/\>$/, ` fill="${iconColor.rgb().toString()}" />`);
+            const svgPath = icon.path.replace(/\/>$/, ` fill="${iconColor.rgb().toString()}" />`);
 
             // Build SVG
             const svg = `<svg viewBox="0 0 ${icon.width} ${icon.height}" width="${iconSize}" height="${iconSize}" xmlns="http://www.w3.org/2000/svg">${svgPath}</svg>`;
 
-            sharp(Buffer.from(svg))
-                .png()
-                .toFile(path.join(iconPath, `${name}.png`));
+            sharpTasks.push(
+                sharp(Buffer.from(svg))
+                    .png()
+                    .toFile(path.join(iconPath, `${name}.png`))
+            );
         }
+
+        await Promise.all(sharpTasks);
     }
 }

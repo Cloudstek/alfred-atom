@@ -239,7 +239,7 @@ Simply type atom and press space to list all projects. Optionally type a search 
 		<string>terminalApp</string>
 	</array>
 	<key>version</key>
-	<string>3.0.4</string>
+	<string>4.0.0</string>
 	<key>webaddress</key>
 	<string>https://github.com/Cloudstek/alfred-atom</string>
 </dict>

@@ -1,10 +1,10 @@
 import cson from "cson-parser";
 import untildify from "untildify";
-import { Hugo, Item } from "alfred-hugo";
+import {Hugo, Item} from "alfred-hugo";
 
-import { Icons } from "./icons";
+import {Icons} from "./icons";
 import * as utils from "./utils";
-import { Projects } from "./project";
+import {Projects} from "./project";
 
 const hugo = new Hugo({
     checkUpdates: true,
@@ -12,7 +12,7 @@ const hugo = new Hugo({
     updateSource: "npm",
 });
 
-hugo.action("projects", () => {
+hugo.action("projects", async () => {
     // Projects file
     const projectsFile = hugo.cacheFile(untildify("~/.atom/projects.cson"));
     const configFile = hugo.cacheFile(untildify("~/.atom/config.cson"));
@@ -24,9 +24,6 @@ hugo.action("projects", () => {
     projectsFile.on("change", (cache, file) => {
         // Parse projects
         const p = Projects.parseCson(file);
-
-        // Rebuild icons when needed
-        Icons.rebuild(p, { onlyMissing: true, theme: hugo.alfredTheme });
 
         // Sort projects
         p.sort((a, b) => {
@@ -92,7 +89,7 @@ hugo.action("projects", () => {
     hugo.items = hugo.items.concat(projects);
 
     // Check icons
-    utils.checkIcons(hugo, projects);
+    await utils.checkIcons(hugo, projects);
 
     // Check if any projects found
     if (hugo.items.length === 0) {
@@ -102,7 +99,7 @@ hugo.action("projects", () => {
     }
 
     // Output
-    hugo.feedback();
+    await hugo.feedback();
 });
 
 hugo.run();
