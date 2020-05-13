@@ -33,6 +33,7 @@ Because some dependencies are quite big you have to run `npm install` yourself a
 Simply type `atom` followed by space to list all projects. Optionally type a search string to filter results.
 
 ![alfred-atom](screenshot.png)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FCloudstek%2Falfred-atom.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FCloudstek%2Falfred-atom?ref=badge_shield)
 
 ## Troubleshooting
 
@@ -42,3 +43,7 @@ You most likely have an invalid `projects.cson` file. Some edge cases may be han
 
 Also check out the debug output, see the [Using the Workflow Debugger](https://www.alfredapp.com/help/workflows/advanced/debugger/) section of the Alfred documentation.
 
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FCloudstek%2Falfred-atom.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FCloudstek%2Falfred-atom?ref=badge_large)
