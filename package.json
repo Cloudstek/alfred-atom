@@ -30,7 +30,7 @@
     "fs-extra": "^9.0.0",
     "glob": "^7.1.6",
     "moment": "^2.24.0",
-    "sharp": "^0.25.2",
+    "sharp": "^0.30.5",
     "untildify": "^4.0.0"
   },
   "devDependencies": {
